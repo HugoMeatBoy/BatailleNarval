@@ -1,8 +1,24 @@
 package game
 
+import board._
 import scala.util.matching.Regex
 
-object Test extends App{
+object BattleShip extends App{
+	println("[*******************************************]")
+	println("[*************SCALA BATTLESHIP**************]")
+	println("[*******************************************]\n")
+
+	println("Welcome for a new game !")
+	var levelIA = selectIA()
+
+	var player = new Human()
+
+
+	levelIA match {
+		case 1 => var ia = new IAlvl1()
+		case 2 => var ia = new IAlvl2()
+		case 3 => var ia = new IAlvl3()
+	}
 
 	var playerMap = new Grid()
 	var attackMap = new Grid()
@@ -16,48 +32,65 @@ object Test extends App{
 		gridAttack.display
 		if(!winner){
 			println("Tour Suivant :")
-
 			attackRound(gridAttack)
 
 
-
+			gameLoop(gridPlayer, gridAttack, false)
 		}
-		gameLoop(gridPlayer, gridAttack, false)
+
+
 	}
+
+
+
+	def selectIA():Int={
+		var lvl = readLine("Select the IA level [1-2-3] : ").toInt
+		if(!(lvl.equals("1") || lvl.equals("2") ||lvl.equals("3"))) {
+			println("Wrong input")
+			selectIA
+		}
+		else lvl
+	}
+
+
+
+
+
+
 
 
 
 	def attackRound(g : Grid){
+
 		var target = takeinput()
+		attack(g, target._1,target._2)
 
-		var xTarget = target.charAt(0)
-
-		var yTarget = 0
-
-		if(target.length == 3){
-			yTarget = 10
-		}else{
-			yTarget = target.charAt(1).asDigit
-		}
-
-		attack(g, xTarget, yTarget)
 	}
 
-	def takeinput(): String = {
+	def takeinput():Tuple2[Char,Int] = {
 		var target =  readLine("Entrez une case à viser : ")
 		val regex = "[A,B,C,D,E,F,G,H,I,J][1,2,3,4,5,6,7,8,9]".r
 		val regexTen = "[A,B,C,D,E,F,G,H,I,J][1][0]".r
 
 
 		target match {
-		  case regex() | regexTen() => return target
+		  case regex() | regexTen() => {
+			var xTarget = target.charAt(0)
+
+	  		var yTarget = 0
+
+	  		if(target.length == 3){
+	  			yTarget = 10
+	  		}else{
+	  			yTarget = target.charAt(1).asDigit
+	  		}
+			(xTarget,yTarget)
+		  }
 		  case _ => {
 			  println("Input error, please enter a cell inside the grid")
 			  takeinput
 		  }
 	  	}
-
-
 	}
 
 	def attack(g:Grid, xT:Char, yT:Int): Boolean = {
@@ -90,97 +123,5 @@ object Test extends App{
 			attackRound(g)
 			false
 		}
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-class Cell(s:String){
-	var state :String = s
-
-	def render():String={
-		if(state.equals("Missed")){
-			return "o"
-		}else if(state.equals("Touched")){
-			return "x"
-		}else if(state.equals("Sunken")){
-			return "X"
-		}else if(state.equals("Ship")){
-			return "S"
-		}else{
-			" "
-		}
-	}
-
-	def checkState: Boolean = {
-		state.equals("Empty") || state.equals("Ship")
-	}
-}
-
-
-class Grid(){
-	var board = Array.ofDim[Cell](10,10)
-
-	createBoard(this,0,0);
-
-
-
-	def display(){
-		println("B = Boat, X = Shot missed \n")
-
-		println("|   | A | B | C | D | E | F | G | H | I | J  ")
-
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 1 | " + board(0)(0).render + " | " + board(0)(1).render + " | " + board(0)(2).render + " | " + board(0)(3).render + " | " + board(0)(4).render + " | " + board(0)(5).render + " | "+ board(0)(6).render + " | "+ board(0)(7).render + " | " + board(0)(8).render + " | "+ board(0)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 2 | " + board(1)(0).render + " | " + board(1)(1).render + " | " + board(1)(2).render + " | " + board(1)(3).render + " | " + board(1)(4).render + " | " + board(1)(5).render + " | "+ board(1)(6).render + " | "+ board(1)(7).render + " | " + board(1)(8).render + " | "+ board(1)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 3 | " + board(2)(0).render + " | " + board(2)(1).render + " | " + board(2)(2).render + " | " + board(2)(3).render + " | " + board(2)(4).render + " | " + board(2)(5).render + " | "+ board(2)(6).render + " | "+ board(2)(7).render + " | " + board(2)(8).render + " | "+ board(2)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 4 | " + board(3)(0).render + " | " + board(3)(1).render + " | " + board(3)(2).render + " | " + board(3)(3).render + " | " + board(3)(4).render + " | " + board(3)(5).render + " | "+ board(3)(6).render + " | "+ board(3)(7).render + " | " + board(3)(8).render + " | "+ board(3)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 5 | " + board(4)(0).render + " | " + board(4)(1).render + " | " + board(4)(2).render + " | " + board(4)(3).render + " | " + board(4)(4).render + " | " + board(4)(5).render + " | "+ board(4)(6).render + " | "+ board(4)(7).render + " | " + board(4)(8).render + " | "+ board(4)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 6 | " + board(5)(0).render + " | " + board(5)(1).render + " | " + board(5)(2).render + " | " + board(5)(3).render + " | " + board(5)(4).render + " | " + board(5)(5).render + " | "+ board(5)(6).render + " | "+ board(5)(7).render + " | " + board(5)(8).render + " | "+ board(5)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 7 | " + board(6)(0).render + " | " + board(6)(1).render + " | " + board(6)(2).render + " | " + board(6)(3).render + " | " + board(6)(4).render + " | " + board(6)(5).render + " | "+ board(6)(6).render + " | "+ board(6)(7).render + " | " + board(6)(8).render + " | "+ board(6)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 8 | " + board(7)(0).render + " | " + board(7)(1).render + " | " + board(7)(2).render + " | " + board(7)(3).render + " | " + board(7)(4).render + " | " + board(7)(5).render + " | "+ board(7)(6).render + " | "+ board(7)(7).render + " | " + board(7)(8).render + " | "+ board(7)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 9 | " + board(8)(0).render + " | " + board(8)(1).render + " | " + board(8)(2).render + " | " + board(8)(3).render + " | " + board(8)(4).render + " | " + board(8)(5).render + " | "+ board(8)(6).render + " | "+ board(8)(7).render + " | " + board(8)(8).render + " | "+ board(8)(9).render)
-		println("|---|---|---|---|---|---|---|---|---|---|---")
-		println("| 10| " + board(9)(0).render + " | " + board(9)(1).render + " | " + board(9)(2).render + " | " + board(9)(3).render + " | " + board(9)(4).render + " | " + board(9)(5).render + " | "+ board(9)(6).render + " | "+ board(9)(7).render + " | " + board(9)(8).render + " | "+ board(9)(9).render)
-	}
-
-	def createBoard(g:Grid, x:Int, y:Int){
-		g.board(x)(y) = new Cell("Empty")
-
-		if(x == 9){
-			if(y != 9){
-				createBoard(g,0,y+1)
-			}
-		}else{
-			createBoard(g,x+1,y)
-		}
-	}
-}
-
-
-class Player(name:String){
-
-}
-
-object Start{
-	def render(){
-		println("Bataille navale")
 	}
 }
