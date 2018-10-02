@@ -22,36 +22,50 @@ class Grid(){
 	}
 
 
+	def checkCell(x: Int, y: Int):String={
+		board(x)(y).state
+	}
 
-	def addBoat(b : Boat, length: Int){
+	def setCell(x: Int, y: Int, state: String){
+		board(x)(y).state = state
+	}
+
+	def addBoat(b : Boat, length: Int):Option[Unit]={
 		if(length != 0){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x
 					var yb = b.y + (b.size - length)
-					if(this.board(xb)(yb).state == "Empty"){
-						this.board(xb)(yb).state = "Ship"
+					if(this.checkCell(xb,yb) == "Empty"){
+						this.setCell(xb,yb,"Ship")
+
 						println(xb + " " + yb)
 					}else{
 						println("Y a un bateau")
+						None
 					}
 			}else{
 				var xb = b.x + (b.size - length)
 				var yb = b.y
-				if(this.board(xb)(yb).state == "Empty"){
-					this.board(xb)(yb).state = "Ship"
+				if(this.checkCell(xb,yb) == "Empty"){
+					this.setCell(xb,yb,"Ship")
 					println(xb + " " + yb)
 				}else{
 					println("Y a un bateau")
+					None
 				}
 			}
+
 			addBoat(b,length - 1)
+		}else{
+			Some()
 		}
 
 	}
 
 
 	def displayOwn(){
-		println("B = Boat, X = Shot missed \n")
+		println("\n **************\n ************** Your grid\n")
+		println("S = Ship, x = Ship touched, X = Ship sunk \n")
 
 		println("|   | A | B | C | D | E | F | G | H | I | J  ")
 		println("|---|---|---|---|---|---|---|---|---|---|---")
@@ -81,7 +95,8 @@ class Grid(){
 
 
     def displayVS(){
-		println("B = Boat, X = Shot missed \n")
+		println("\n **************\n ************** Opponent grid\n")
+		println("x = Ship touched, X = Ship sunk, o = Shot missed \n")
 
 		println("|   | A | B | C | D | E | F | G | H | I | J  ")
 		println("|---|---|---|---|---|---|---|---|---|---|---")
