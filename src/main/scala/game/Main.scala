@@ -1,6 +1,7 @@
 package game
 
 import board._
+import UI.Console._
 import scala.util.matching.Regex
 
 object BattleShip extends App{
@@ -10,118 +11,106 @@ object BattleShip extends App{
 
 	println("Welcome for a new game !")
 	var levelIA = selectIA()
+	var playerGrid = new Grid
 
-	var player = new Human()
+	var runGame = ""
+	var boats = createBoats(playerGrid)
 
 
+	var player = new Human()//With Boats
 	levelIA match {
-		case 1 => var ia = new IAlvl1()
-		case 2 => var ia = new IAlvl2()
-		case 3 => var ia = new IAlvl3()
+		case 1 => {
+			var ia = new IAlvl1()
+			runGame = gameLoop(player,ia,false)
+		}
+		case 2 =>{
+			var ia = new IAlvl2()
+			runGame = gameLoop(player,ia,false)
+		}
+		case 3 => {
+			var ia = new IAlvl3()
+			runGame = gameLoop(player,ia,false)
+		}
+		case _ => {
+			var ia = new IAlvl1()
+			runGame = gameLoop(player,ia,false)
+		}
 	}
 
-	var playerMap = new Grid()
-	var attackMap = new Grid()
 
 
 
-	var runGame = gameLoop(playerMap,attackMap,false)
 
 
-	def gameLoop(gridPlayer : Grid, gridAttack : Grid, winner : Boolean){
-		gridAttack.display
+	println(runGame)
+
+
+
+	def gameLoop(p1: Player, p2: Player, winner : Boolean):String={
+		p1.grid.displayOwn
+		p2.grid.displayVS
 		if(!winner){
-			println("Tour Suivant :")
-			attackRound(gridAttack)
+			println("\n********* Tour Suivant ******* \n")
 
 
-			gameLoop(gridPlayer, gridAttack, false)
+			p1.attackRound(p2.grid)
+			//defRound(p2)
+
+			gameLoop(p1, p2, false)
+		}else{
+			if(p1.hasBoatsLeft){
+				"YOU LOSE"
+			}else{
+				"GG"
+			}
 		}
 
 
 	}
+
 
 
 
 	def selectIA():Int={
-		var lvl = readLine("Select the IA level [1-2-3] : ").toInt
+		var lvl = readLine("Select the IA level [1-2-3] : ")
 		if(!(lvl.equals("1") || lvl.equals("2") ||lvl.equals("3"))) {
 			println("Wrong input")
 			selectIA
 		}
-		else lvl
+		else lvl.toInt
 	}
 
+	def createBoats(g : Grid)/*:List[Boat]*/={
+		println("\nNow place your boats !\n")
 
 
+		var dir = readLine("\nSelect a direction for your 5-cell ship (Horizontally:H,Vertically:V) : ")
+		println("Selectionnez la première case du bateau (en haut à droite) :")
+		var cell = takeCellInput()
 
-
-
-
-
-
-	def attackRound(g : Grid){
-
-		var target = takeinput()
-		attack(g, target._1,target._2)
-
-	}
-
-	def takeinput():Tuple2[Char,Int] = {
-		var target =  readLine("Entrez une case à viser : ")
-		val regex = "[A,B,C,D,E,F,G,H,I,J][1,2,3,4,5,6,7,8,9]".r
-		val regexTen = "[A,B,C,D,E,F,G,H,I,J][1][0]".r
-
-
-		target match {
-		  case regex() | regexTen() => {
-			var xTarget = target.charAt(0)
-
-	  		var yTarget = 0
-
-	  		if(target.length == 3){
-	  			yTarget = 10
-	  		}else{
-	  			yTarget = target.charAt(1).asDigit
-	  		}
-			(xTarget,yTarget)
-		  }
-		  case _ => {
-			  println("Input error, please enter a cell inside the grid")
-			  takeinput
-		  }
-	  	}
-	}
-
-	def attack(g:Grid, xT:Char, yT:Int): Boolean = {
 		var x = {
-			xT match {
-				case 'A' => 0
-				case 'B' => 1
-				case 'C' => 2
-				case 'D' => 3
-				case 'E' => 4
-				case 'F' => 5
-				case 'G' => 6
-				case 'H' => 7
-				case 'I' => 8
-				case 'J' => 9
+			cell._1 match {
+				case 'A'|'a' => 0
+				case 'B'|'b' => 1
+				case 'C'|'c' => 2
+				case 'D'|'d' => 3
+				case 'E'|'e' => 4
+				case 'F'|'f' => 5
+				case 'G'|'g' => 6
+				case 'H'|'h' => 7
+				case 'I'|'i' => 8
+				case 'J'|'j' => 9
 			}
 		}
-		var y = yT - 1
+		var y = cell._2 - 1
 
-		if(g.board(x)(y).checkState){
-			if(g.board(x)(y).state.equals("Empty")) {
-				g.board(x)(y).state = "Missed"
-				false
-			}else{
-				g.board(x)(y).state = "Touched"
-				true
-			}
-		}else{
-			println("Target already destroyed, please shoot again")
-			attackRound(g)
-			false
-		}
+		var b1 = new Boat(5, x, y, dir)
+		g.addBoat(b1, 5)
+
+		g.displayOwn
+
+
 	}
+
+
 }

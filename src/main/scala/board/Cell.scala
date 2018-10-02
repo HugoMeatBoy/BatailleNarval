@@ -4,17 +4,17 @@ class Cell(s:String){
 	var state :String = s
 
 	def render():String={
-		if(state.equals("Missed")){
-			return "o"
-		}else if(state.equals("Touched")){
-			return "x"
-		}else if(state.equals("Sunken")){
-			return "X"
-		}else if(state.equals("Ship")){
-			return "S"
-		}else{
-			" "
-		}
+		if(state.equals("Touched")) "x"
+		else if(state.equals("Sunken")) "X"
+		else if(state.equals("Ship")) "S"
+		else " "
+	}
+
+	def renderHidden():String={
+		if(state.equals("Missed")) "o"
+		else if(state.equals("Touched")) "x"
+		else if(state.equals("Sunken")) "X"
+		else " "
 	}
 
 	def checkState: Boolean = {
