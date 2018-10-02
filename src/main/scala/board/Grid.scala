@@ -2,6 +2,7 @@ package board
 
 class Grid(){
 	var board = Array.ofDim[Cell](10,10)
+	var boats = Array.ofDim[Boat](5)
 
 	createBoard(0,0);
 
@@ -30,37 +31,42 @@ class Grid(){
 		board(x)(y).state = state
 	}
 
-	def addBoat(b : Boat, length: Int):Option[Unit]={
+	def addBoat(b : Boat, length: Int){
 		if(length != 0){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x
 					var yb = b.y + (b.size - length)
 					if(this.checkCell(xb,yb) == "Empty"){
 						this.setCell(xb,yb,"Ship")
-
-						println(xb + " " + yb)
-					}else{
-						println("Y a un bateau")
-						None
 					}
 			}else{
 				var xb = b.x + (b.size - length)
 				var yb = b.y
 				if(this.checkCell(xb,yb) == "Empty"){
 					this.setCell(xb,yb,"Ship")
-					println(xb + " " + yb)
-				}else{
-					println("Y a un bateau")
-					None
 				}
 			}
 
 			addBoat(b,length - 1)
-		}else{
-			Some()
 		}
-
 	}
+
+	def isEmpty(x: Int = 0, y: Int = 0):Boolean={
+		if(checkCell(x,y) != "Ship"){
+			if(x == 9){
+				if(y == 9){
+					true
+				}else{
+					isEmpty(0,y+1)
+				}
+			}else{
+				isEmpty(x+1,y)
+			}
+		}else{
+			false
+		}
+	}
+
 
 
 	def displayOwn(){

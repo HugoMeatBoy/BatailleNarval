@@ -2,6 +2,7 @@ package game
 
 import board._
 import UI.Console._
+
 import scala.util.matching.Regex
 
 object BattleShip extends App{
@@ -10,14 +11,16 @@ object BattleShip extends App{
 
 	var levelIA = selectIA()
 
-	var player = new Human()//With Boats
+
+	var gridPlayer = createBoats()
+	var player = new Human(gridPlayer)//With Boats
 	/*
 		-Select VS or IA lvl
 		-> Players names
 		-> IA level
 	*/
 	var runGame = ""
-	var gridPlayer = createBoats()
+
 
 
 
@@ -40,16 +43,11 @@ object BattleShip extends App{
 		}
 	}
 
-
-
-
-
-
 	println(runGame)
 
 
 
-	def gameLoop(p1: Player, p2: Player, winner : Boolean):String={
+	def gameLoop(p1: Player, p2: Player,winner : Boolean):String={
 		p1.grid.displayOwn
 		p2.grid.displayVS
 		if(!winner){
@@ -59,14 +57,18 @@ object BattleShip extends App{
 			p1.attackRound(p2.grid)
 			//defRound(p2)
 
-			gameLoop(p1, p2, false)
-		}else{
-			if(p1.hasBoatsLeft){
-				"YOU LOSE"
+			if(p1.grid.isEmpty() || p2.grid.isEmpty()){
+				gameLoop(p1, p2, true)
 			}else{
-				"GG"
+				gameLoop(p1, p2, false)
 			}
+
+
+		}else{
+			"GG WP"
 		}
+
+
 	}
 
 
@@ -80,5 +82,5 @@ object BattleShip extends App{
 		else lvl.toInt
 	}
 
-	
+
 }

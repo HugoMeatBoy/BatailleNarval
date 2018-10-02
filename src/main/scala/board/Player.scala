@@ -3,27 +3,19 @@ package board
 abstract class Player {
     var grid: Grid
 //    var boat5,boat4,boat3_1,boat3_2,boat2: Boat
-    def hasBoatsLeft:Boolean
     def attackRound(g: Grid):Boolean
 }
 
 
 
-class Human extends Player{
-    var grid = new Grid()
-    def hasBoatsLeft:Boolean={true}
+class Human(g: Grid) extends Player{
+    var grid: Grid = g
 /*    var boat5 = new Boat(5)
     var boat4 = new Boat(4)
     var boat3_1 = new Boat(3)
     var boat3_2 = new Boat(3)
     var boat2 = new Boat(2)
 */
-
-
-
-
-
-
 	def attackRound(g : Grid): Boolean={
 		var target = takeinput()
 		attack(g, target._1,target._2)

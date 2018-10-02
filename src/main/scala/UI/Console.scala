@@ -114,10 +114,11 @@ object Console{
         }
     }
 
-    def createBoats()/*:List[Boat]*/={
+    def createBoats():Grid={
 		var g = new Grid
 		println("\n*** Now place your boats !\n")
 
+        g.displayOwn
 
 		var dir5 = getDirection(5)
 
@@ -147,7 +148,8 @@ object Console{
 
         println("\nSelectionnez la première case du bateau (en haut à droite) :")
         g.addBoat(insertBoat(dir1, 2, g), 2)
-        g.displayOwn
+
+        g
 	}
 
     def getDirection(sizeBoat: Int):String={

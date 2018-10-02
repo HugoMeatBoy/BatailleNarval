@@ -3,7 +3,6 @@ package board
 
 trait IA {
     def shoot:Tuple2[Int,Int]
-    def hasBoatsLeft:Boolean={true}
 /*    var boat5 = new Boat(5)
     var boat4 = new Boat(4)
     var boat3_1 = new Boat(3)
