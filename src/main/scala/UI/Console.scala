@@ -1,28 +1,144 @@
 package UI
 
+import board._
+
 object Console{
+        def logo(){
+            println("\n\n                                     # #  ( )")
+            println("                                  ___#_#___|__")
+            println("                              _  |____________|  _")
+            println("                       _=====| | |            | | |==== _")
+            println("              =====| |.---------------------------. | |====")
+            println("    <--------------------'   .  .  .  .  .  .  .  .   '--------------/")
+            println("     \\                                                             /")
+            println("      \\______________SCALA_BATTLESHIP_______by_Hugo_FAZIO_________/)\n\n")
+
+            println("\n----------------------- Welcome for a new game ! ------------------------------\n")
+        }
+
         def takeCellInput():Tuple2[Char,Int] = {
-        var target =  readLine("Select a cell : ")
-        val regex = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1,2,3,4,5,6,7,8,9]".r
-        val regexTen = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1][0]".r
+            var target =  readLine("Select a cell : ")
+            val regex = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1,2,3,4,5,6,7,8,9]".r
+            val regexTen = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1][0]".r
 
 
-        target match {
-            case regex() | regexTen() => {
-            var xTarget = target.charAt(0)
+            target match {
+                case regex() | regexTen() => {
+                var xTarget = target.charAt(0)
 
-            var yTarget = 0
+                var yTarget = 0
 
-            if(target.length == 3){
-                yTarget = 10
-            }else{
-                yTarget = target.charAt(1).asDigit
+                if(target.length == 3){
+                    yTarget = 10
+                }else{
+                    yTarget = target.charAt(1).asDigit
+                }
+                println("input " + xTarget + "," + yTarget)
+                (xTarget,yTarget)
+                }
+                case _ => {
+                    println("Input error, please enter a cell inside the grid")
+                    takeCellInput
+                }
             }
-            (xTarget,yTarget)
+    }
+
+    def checkValidCell(coord : Tuple2[Char,Int]): Tuple2[Int,Int] = {
+        var x = {
+			coord._1 match {
+				case 'A'|'a' => 0
+				case 'B'|'b' => 1
+				case 'C'|'c' => 2
+				case 'D'|'d' => 3
+				case 'E'|'e' => 4
+				case 'F'|'f' => 5
+				case 'G'|'g' => 6
+				case 'H'|'h' => 7
+				case 'I'|'i' => 8
+				case 'J'|'j' => 9
+			}
+		}
+		var y = coord._2 - 1
+        println("input " + x + "," + y)
+        (x,y)
+    }
+
+    def checkValidBoat(dir: String, size: Int, coord : Tuple2[Int,Int]): Boolean= {
+        if(dir.equals("V") || dir.equals("v")){
+
+            if(coord._2 + size < 10){
+                println("Boat out of grid V" + (coord._2 + size) )
+                insertBoat(dir, size)
+                false
             }
+        }else{
+            if(coord._1 + size < 10){
+                println("Boat out of grid h"+ (coord._1 + size))
+                insertBoat(dir, size)
+                false
+            }
+        }
+        true
+
+    }
+
+    def insertBoat(dir: String, size: Int): Boat={
+        var cell = checkValidCell(takeCellInput())
+
+        if(checkValidBoat(dir, size, cell)){
+            var b1 = new Boat(size, cell._1, cell._2, dir)
+            return b1
+        }else{
+
+            insertBoat(dir, size)
+        }
+    }
+
+    def createBoats()/*:List[Boat]*/={
+		var g = new Grid
+		println("\n*** Now place your boats !\n")
+
+
+		var dir5 = getDirection(5)
+
+        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        g.addBoat(insertBoat(dir5, 5), 5)
+        g.displayOwn
+
+        var dir4 = getDirection(4)
+
+        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        g.addBoat(insertBoat(dir4, 4), 4)
+        g.displayOwn
+
+        var dir3 = getDirection(3)
+
+        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        g.addBoat(insertBoat(dir3, 3), 3)
+        g.displayOwn
+
+        var dir2 = getDirection(3)
+
+        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        g.addBoat(insertBoat(dir2, 3), 3)
+        g.displayOwn
+
+        var dir1 = getDirection(2)
+
+        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        g.addBoat(insertBoat(dir1, 2), 2)
+        g.displayOwn
+
+
+	}
+
+    def getDirection(sizeBoat: Int):String={
+        var d = readLine("\nSelect a direction for your "+ sizeBoat +"-cell ship (Horizontally:H,Vertically:V) : ")
+        d match {
+            case "h" | "H" | "v" |  "V" => d.toLowerCase
             case _ => {
-                println("Input error, please enter a cell inside the grid")
-                takeCellInput
+                println("[ERR] * Wrong input")
+                getDirection(sizeBoat)
             }
         }
     }

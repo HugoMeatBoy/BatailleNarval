@@ -5,19 +5,22 @@ import UI.Console._
 import scala.util.matching.Regex
 
 object BattleShip extends App{
-	println("[*******************************************]")
-	println("[*************SCALA BATTLESHIP**************]")
-	println("[*******************************************]\n")
+	logo()
 
-	println("Welcome for a new game !")
+
 	var levelIA = selectIA()
-	var playerGrid = new Grid
-
-	var runGame = ""
-	var boats = createBoats(playerGrid)
-
 
 	var player = new Human()//With Boats
+	/*
+		-Select VS or IA lvl
+		-> Players names
+		-> IA level
+	*/
+	var runGame = ""
+	var gridPlayer = createBoats()
+
+
+
 	levelIA match {
 		case 1 => {
 			var ia = new IAlvl1()
@@ -50,7 +53,7 @@ object BattleShip extends App{
 		p1.grid.displayOwn
 		p2.grid.displayVS
 		if(!winner){
-			println("\n********* Tour Suivant ******* \n")
+			println("\n********* Tour Suivant ********* \n")
 
 
 			p1.attackRound(p2.grid)
@@ -64,10 +67,7 @@ object BattleShip extends App{
 				"GG"
 			}
 		}
-
-
 	}
-
 
 
 
@@ -80,37 +80,5 @@ object BattleShip extends App{
 		else lvl.toInt
 	}
 
-	def createBoats(g : Grid)/*:List[Boat]*/={
-		println("\nNow place your boats !\n")
-
-
-		var dir = readLine("\nSelect a direction for your 5-cell ship (Horizontally:H,Vertically:V) : ")
-		println("Selectionnez la première case du bateau (en haut à droite) :")
-		var cell = takeCellInput()
-
-		var x = {
-			cell._1 match {
-				case 'A'|'a' => 0
-				case 'B'|'b' => 1
-				case 'C'|'c' => 2
-				case 'D'|'d' => 3
-				case 'E'|'e' => 4
-				case 'F'|'f' => 5
-				case 'G'|'g' => 6
-				case 'H'|'h' => 7
-				case 'I'|'i' => 8
-				case 'J'|'j' => 9
-			}
-		}
-		var y = cell._2 - 1
-
-		var b1 = new Boat(5, x, y, dir)
-		g.addBoat(b1, 5)
-
-		g.displayOwn
-
-
-	}
-
-
+	
 }
