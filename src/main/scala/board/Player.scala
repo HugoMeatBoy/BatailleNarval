@@ -3,28 +3,20 @@ package board
 abstract class Player {
     var grid: Grid
 //    var boat5,boat4,boat3_1,boat3_2,boat2: Boat
-    def hasBoatsLeft:Boolean
-    def attackRound(g: Grid):Boolean
+    def attackRound(g: Grid):String
 }
 
 
 
-class Human extends Player{
-    var grid = new Grid()
-    def hasBoatsLeft:Boolean={true}
+class Human(g: Grid) extends Player{
+    var grid: Grid = g
 /*    var boat5 = new Boat(5)
     var boat4 = new Boat(4)
     var boat3_1 = new Boat(3)
     var boat3_2 = new Boat(3)
     var boat2 = new Boat(2)
 */
-
-
-
-
-
-
-	def attackRound(g : Grid): Boolean={
+	def attackRound(g : Grid): String={
 		var target = takeinput()
 		attack(g, target._1,target._2)
 	}
@@ -50,13 +42,13 @@ class Human extends Player{
 			(xTarget,yTarget)
 		  }
 		  case _ => {
-			  println("Input error, please enter a cell inside the grid")
+			  println("[ERR] * Input error, please enter a cell inside the grid \n")
 			  takeinput
 		  }
 	  	}
 	}
 
-	def attack(g:Grid, xT:Char, yT:Int): Boolean = {
+	def attack(g:Grid, xT:Char, yT:Int): String = {
 		var x = {
 			xT match {
 				case 'A'|'a' => 0
@@ -73,18 +65,33 @@ class Human extends Player{
 		}
 		var y = yT - 1
 
-		if(g.board(x)(y).checkState){
-			if(g.board(x)(y).state.equals("Empty")) {
-				g.board(x)(y).state = "Missed"
-				false
-			}else{
-				g.board(x)(y).state = "Touched"
-				true
-			}
-		}else{
-			println("Target already destroyed, please shoot again")
-			attackRound(g)
-			false
-		}
+		g.checkCell(x,y) match {
+            case "Empty" => {
+                g.setCell(x,y,"Missed")
+                "\n\n ** o : Target missed"
+            }
+            case "Ship" => {
+                var boat = g.getHitBoat(x,y)
+                boat.hit
+
+                if(boat.aliveCells==0){
+                    boat.sunk = true
+                    g.boatSunk(boat)
+                    ("\n\n ** X : Ship sunk !!!")
+                }else{
+                    g.setCell(x,y,"Touched")
+                    ("\n\n ** x : Ship touched !")
+                }
+
+            }
+            case _ => {
+                println("[ERR] * Target already destroyed, please shoot again\n")
+
+    			attackRound(g)
+            }
+        }
+
+
+
 	}
 }

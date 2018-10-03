@@ -1,12 +1,11 @@
 package board
 
+import scala.collection.mutable.ListBuffer
+
 class Grid(){
 	var board = Array.ofDim[Cell](10,10)
-
+	var boats = new ListBuffer[Boat]()
 	createBoard(0,0);
-
-
-
 
 
 	def createBoard(x:Int, y:Int){
@@ -22,36 +21,98 @@ class Grid(){
 	}
 
 
+	def checkCell(x: Int, y: Int):String={
+		board(x)(y).state
+	}
+
+	def setCell(x: Int, y: Int, state: String){
+		board(x)(y).state = state
+	}
+
+
+
 
 	def addBoat(b : Boat, length: Int){
+		boats += b
+		adddBoatOnGrid(b,length)
+	}
+
+
+	def adddBoatOnGrid(b: Boat, length: Int){
 		if(length != 0){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x
 					var yb = b.y + (b.size - length)
-					if(this.board(xb)(yb).state == "Empty"){
-						this.board(xb)(yb).state = "Ship"
-						println(xb + " " + yb)
-					}else{
-						println("Y a un bateau")
+					if(this.checkCell(xb,yb) == "Empty"){
+						this.setCell(xb,yb,"Ship")
 					}
 			}else{
 				var xb = b.x + (b.size - length)
 				var yb = b.y
-				if(this.board(xb)(yb).state == "Empty"){
-					this.board(xb)(yb).state = "Ship"
-					println(xb + " " + yb)
-				}else{
-					println("Y a un bateau")
+				if(this.checkCell(xb,yb) == "Empty"){
+					this.setCell(xb,yb,"Ship")
 				}
 			}
-			addBoat(b,length - 1)
+			adddBoatOnGrid(b,length - 1)
 		}
-
 	}
 
 
+	def getHitBoat(x: Int, y: Int, listBoats: List[Boat] = boats.toList): Boat={
+
+		if(listBoats.head.x == x && listBoats.head.y <= y && y < (listBoats.head.y + listBoats.head.size) && listBoats.head.isVertical){
+			return listBoats.head
+
+		}else if(listBoats.head.y == y && listBoats.head.x <= x && x < (listBoats.head.size + listBoats.head.x) && listBoats.head.isHorizontal){
+			return listBoats.head
+
+		}else{
+			getHitBoat(x,y,listBoats.tail)
+		}
+	}
+
+	def boatSunk(b: Boat, acc: Int = 0){
+		if(acc < b.size){
+			if(b.direction.equals("v") || b.direction.equals("V")){
+					var xb = b.x
+					var yb = b.y + acc
+					if(this.checkCell(xb,yb) == "Ship" || this.checkCell(xb,yb) == "Touched"){
+						this.setCell(xb,yb,"Sunk")
+					}
+			}else{
+				var xb = b.x + acc
+				var yb = b.y
+				if(this.checkCell(xb,yb) == "Ship" || this.checkCell(xb,yb) == "Touched"){
+					this.setCell(xb,yb,"Sunk")
+				}
+			}
+			boatSunk(b, acc+1)
+		}
+	}
+
+
+
+	def isEmpty(x: Int = 0, y: Int = 0):Boolean={
+		if(checkCell(x,y) != "Ship"){
+			if(x == 9){
+				if(y == 9){
+					true
+				}else{
+					isEmpty(0,y+1)
+				}
+			}else{
+				isEmpty(x+1,y)
+			}
+		}else{
+			false
+		}
+	}
+
+
+
 	def displayOwn(){
-		println("B = Boat, X = Shot missed \n")
+		println("\n **************\n ************** Your grid\n")
+		println("S = Ship, x = Ship touched, X = Ship sunk \n")
 
 		println("|   | A | B | C | D | E | F | G | H | I | J  ")
 		println("|---|---|---|---|---|---|---|---|---|---|---")
@@ -81,7 +142,8 @@ class Grid(){
 
 
     def displayVS(){
-		println("B = Boat, X = Shot missed \n")
+		println("\n **************\n ************** Opponent grid\n")
+		println("x = Ship touched, X = Ship sunk, o = Shot missed \n")
 
 		println("|   | A | B | C | D | E | F | G | H | I | J  ")
 		println("|---|---|---|---|---|---|---|---|---|---|---")

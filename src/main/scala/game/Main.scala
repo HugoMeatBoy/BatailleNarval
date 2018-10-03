@@ -2,43 +2,71 @@ package game
 
 import board._
 import UI.Console._
+import UI.Ascii._
+
 import scala.util.matching.Regex
 
 object BattleShip extends App{
 	logo()
 
 
-	var levelIA = selectIA()
-
-	var player = new Human()//With Boats
-	/*
-		-Select VS or IA lvl
-		-> Players names
-		-> IA level
-	*/
+	var menu = selectMode()
 	var runGame = ""
-	var gridPlayer = createBoats()
+
+	if(menu == 1){
+		var levelIA = selectIA()
+
+		var gridPlayer = createBoats()
+		var player = new Human(gridPlayer)
+
+		levelIA match {
+			case 1 => {
+				var ia = new IAlvl1()
+				runGame = gameLoopIA(player,ia,false)
+			}
+			case 2 =>{
+				var ia = new IAlvl2()
+				runGame = gameLoopIA(player,ia,false)
+			}
+			case 3 => {
+				var ia = new IAlvl3()
+				runGame = gameLoopIA(player,ia,false)
+			}
+			case _ => {
+				var ia = new IAlvl1()
+				runGame = gameLoopIA(player,ia,false)
+			}
+		}
+	}else{
+
+		println("\n********* Boats setup - Player 1 ********* \n")
+		var gridPlayer1 = createBoats()
+		gridPlayer1.displayOwn
+		var player1 = new Human(gridPlayer1)
+
+
+		pressEnterToContinue
+
+		println("\n********* Boats setup - Player 2 ********* \n")
+		var gridPlayer2 = createBoats()
+		gridPlayer2.displayOwn
+		var player2 = new Human(gridPlayer2)
+		println("\n *** Boats placed \n\n")
+		pressEnterToContinue()
 
 
 
-	levelIA match {
-		case 1 => {
-			var ia = new IAlvl1()
-			runGame = gameLoop(player,ia,false)
-		}
-		case 2 =>{
-			var ia = new IAlvl2()
-			runGame = gameLoop(player,ia,false)
-		}
-		case 3 => {
-			var ia = new IAlvl3()
-			runGame = gameLoop(player,ia,false)
-		}
-		case _ => {
-			var ia = new IAlvl1()
-			runGame = gameLoop(player,ia,false)
-		}
+
+
+		println("Good luck, have fun ! o/\n\n\n")
+
+		runGame = gameLoop(player1,player2,false)
+
+
 	}
+
+
+
 
 
 
@@ -49,30 +77,105 @@ object BattleShip extends App{
 
 
 
-	def gameLoop(p1: Player, p2: Player, winner : Boolean):String={
-		p1.grid.displayOwn
-		p2.grid.displayVS
+	def gameLoopIA(p1: Player, p2: Player,winner : Boolean):String={
+		displayOwn(p1.grid)
+		displayVS(p2.grid)
 		if(!winner){
-			println("\n********* Tour Suivant ********* \n")
+			println("\n********* Next turn ********* \n")
 
 
 			p1.attackRound(p2.grid)
 			//defRound(p2)
 
-			gameLoop(p1, p2, false)
-		}else{
-			if(p1.hasBoatsLeft){
-				"YOU LOSE"
+			if(p1.grid.isEmpty() || p2.grid.isEmpty()){
+				gameLoopIA(p1, p2, true)
 			}else{
-				"GG"
+				gameLoopIA(p1, p2, false)
 			}
+
+
+		}else{
+			"GG WP"
 		}
+
+
 	}
 
+	def gameLoop(p1: Player, p2: Player,winner : Boolean):String={
 
+		if(!winner){
+
+			/*
+				Player One
+			*/
+			println("\n********* Next turn - Player 1 ********* \n")
+
+			//Visualization
+			displayOwn(p1.grid)
+			displayVS(p2.grid)
+
+			//Attack
+			println(p1.attackRound(p2.grid))
+
+			//Result
+			displayVS(p2.grid)
+
+			//Next
+			pressEnterToContinue
+
+
+
+			/*
+				Player Two
+			*/
+			println("\n********* Next turn - Player 2 ********* \n")
+
+			//Visualization
+			displayOwn(p2.grid)
+			displayVS(p1.grid)
+
+			//Attack
+			println(p2.attackRound(p1.grid))
+
+			//Result
+			displayVS(p1.grid)
+
+
+
+			//Next
+			pressEnterToContinue
+
+			if(p1.grid.isEmpty() || p2.grid.isEmpty()){
+				gameLoop(p1, p2, true)
+			}else{
+				gameLoop(p1, p2, false)
+			}
+
+
+		}else{
+			if(p1.grid.isEmpty()){
+				"\n***********    ***********\n*                   *\n Well Played  Player One ! o/ \n\n\n"
+			}else{
+				"\n***********    ***********\n*                   *\n Well Played  Player Two ! o/ \n\n\n"
+			}
+
+		}
+
+
+	}
+
+	def selectMode():Int={
+		var mode = readLine("Select game mode :\n 1 -> 1P vs CPU \n 2 -> 2P VS \n (1/2) : ")
+
+		if(!(mode.equals("1") || mode.equals("2"))) {
+			println("[ERR] * Wrong input \n")
+			selectMode
+		}else mode.toInt
+	}
 
 	def selectIA():Int={
 		var lvl = readLine("Select the IA level [1-2-3] : ")
+
 		if(!(lvl.equals("1") || lvl.equals("2") ||lvl.equals("3"))) {
 			println("Wrong input")
 			selectIA
@@ -80,5 +183,6 @@ object BattleShip extends App{
 		else lvl.toInt
 	}
 
-	
+
+
 }
