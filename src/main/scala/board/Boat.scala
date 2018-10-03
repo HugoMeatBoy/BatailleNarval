@@ -14,10 +14,10 @@ class Boat(s: Int,xB: Int, yB : Int, dir:String){
     }
 
     def isVertical():Boolean ={
-        direction.equals("V") || direction.equals("V"))
+        (direction.equals("V") || direction.equals("V"))
     }
 
     def isHorizontal():Boolean ={
-        direction.equals("H") || direction.equals("h"))
+        (direction.equals("H") || direction.equals("h"))
     }
 }
