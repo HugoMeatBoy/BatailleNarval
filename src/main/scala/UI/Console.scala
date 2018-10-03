@@ -3,18 +3,7 @@ package UI
 import board._
 
 object Console{
-    def logo(){
-            println("\n\n                                     # #  ( )")
-            println("                                  ___#_#___|__")
-            println("                              _  |____________|  _")
-            println("                       _=====| | |            | | |==== _")
-            println("              =====| |.---------------------------. | |====")
-            println("    <--------------------'   .  .  .  .  .  .  .  .   '--------------/")
-            println("     \\                                                             /")
-            println("      \\______________SCALA_BATTLESHIP_______by_Hugo_FAZIO_________/)\n\n")
 
-            println("\n----------------------- Welcome for a new game ! ------------------------------\n")
-        }
 
     def takeCellInput():Tuple2[Char,Int] = {
             var target =  readLine("Select a cell : ")
@@ -33,7 +22,6 @@ object Console{
                 }else{
                     yTarget = target.charAt(1).asDigit
                 }
-                println("input " + xTarget + "," + yTarget)
                 (xTarget,yTarget)
                 }
                 case _ => {
@@ -59,20 +47,19 @@ object Console{
 			}
 		}
 		var y = coord._2 - 1
-        println("input " + x + "," + y)
         (x,y)
     }
 
 
     def checkValidBoat(dir: String, size: Int, coord : Tuple2[Int,Int], g : Grid): Boolean= {
         if(dir.equals("V") || dir.equals("v")){
-            if(coord._1 + size < 10){
+            if(coord._1 + size >= 10){
                 println("There is not enough space for this boat")
                 false
             }
         }else{
-            if(coord._2 + size < 10){
-                println("There is not enough space for this boat")
+            if(coord._2 + size >= 10){
+                println("There is not enough space for this boat " + ())
                 false
             }
         }

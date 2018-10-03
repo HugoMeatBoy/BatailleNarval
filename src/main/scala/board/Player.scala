@@ -3,7 +3,7 @@ package board
 abstract class Player {
     var grid: Grid
 //    var boat5,boat4,boat3_1,boat3_2,boat2: Boat
-    def attackRound(g: Grid):Boolean
+    def attackRound(g: Grid):String
 }
 
 
@@ -16,7 +16,7 @@ class Human(g: Grid) extends Player{
     var boat3_2 = new Boat(3)
     var boat2 = new Boat(2)
 */
-	def attackRound(g : Grid): Boolean={
+	def attackRound(g : Grid): String={
 		var target = takeinput()
 		attack(g, target._1,target._2)
 	}
@@ -48,7 +48,7 @@ class Human(g: Grid) extends Player{
 	  	}
 	}
 
-	def attack(g:Grid, xT:Char, yT:Int): Boolean = {
+	def attack(g:Grid, xT:Char, yT:Int): String = {
 		var x = {
 			xT match {
 				case 'A'|'a' => 0
@@ -65,18 +65,23 @@ class Human(g: Grid) extends Player{
 		}
 		var y = yT - 1
 
-		if(g.board(x)(y).checkState){
-			if(g.board(x)(y).state.equals("Empty")) {
-				g.board(x)(y).state = "Missed"
-				false
-			}else{
-				g.board(x)(y).state = "Touched"
-				true
-			}
-		}else{
-			println("Target already destroyed, please shoot again")
-			attackRound(g)
-			false
-		}
+		g.checkCell(x,y) match {
+            case "Empty" => {
+                g.setCell(x,y,"Missed")
+                "Target missed"
+            }
+            case "Ship" => {
+                g.setCell(x,y,"Touched")
+                "Hit !"
+            }
+            case _ => {
+                println("Target already destroyed, please shoot again")
+
+    			attackRound(g)
+            }
+        }
+
+
+
 	}
 }

@@ -13,11 +13,9 @@ class Cell(s:String){
 	def renderHidden():String={
 		if(state.equals("Missed")) "o"
 		else if(state.equals("Touched")) "x"
-		else if(state.equals("Sunken")) "X"
+		else if(state.equals("Sunk")) "X"
 		else " "
 	}
 
-	def checkState: Boolean = {
-		state.equals("Empty") || state.equals("Ship")
-	}
+
 }

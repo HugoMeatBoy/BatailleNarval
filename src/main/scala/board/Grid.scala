@@ -31,7 +31,15 @@ class Grid(){
 		board(x)(y).state = state
 	}
 
+
+
+
 	def addBoat(b : Boat, length: Int){
+		boats :+ b
+		adddBoatOnGrid(b,length)
+	}
+
+	def adddBoatOnGrid(b: Boat, length: Int){
 		if(length != 0){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x
@@ -46,9 +54,23 @@ class Grid(){
 					this.setCell(xb,yb,"Ship")
 				}
 			}
-
 			addBoat(b,length - 1)
 		}
+	}
+
+
+	def getHitBoat(x: Int, y: Int, acc: Int = 0): Boat={
+		if(boats(acc).x == x){
+			if(boats(acc).y >= y &&  boats(acc).y < (y + boats(acc).size)){
+				boats(acc)
+			}
+		}else if(boats(acc).y == y ){
+			if(boats(acc).x >= x &&  boats(acc).x < (x + boats(acc).size)){
+				boats(acc)
+			}
+		}
+
+		getHitBoat(x,y,acc+1)
 	}
 
 	def isEmpty(x: Int = 0, y: Int = 0):Boolean={
