@@ -20,7 +20,7 @@ object Ascii{
 
     def displayOwn(g:Grid){
         println("\n\n ************** Your grid\n")
-        println("S = Ship, x = Ship touched, X = Ship sunk \n")
+        println("≡ = Ship, Ø = Ship touched, X = Ship sunk \n")
 
         println("        | A | B | C | D | E | F | G | H | I | J  ")
         println("     ---|---|---|---|---|---|---|---|---|---|---")

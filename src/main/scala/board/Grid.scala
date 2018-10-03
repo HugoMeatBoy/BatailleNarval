@@ -5,8 +5,6 @@ import scala.collection.mutable.ListBuffer
 class Grid(){
 	var board = Array.ofDim[Cell](10,10)
 	var boats = new ListBuffer[Boat]()
-
-	println(boats.toList)
 	createBoard(0,0);
 
 
@@ -63,12 +61,9 @@ class Grid(){
 	def getHitBoat(x: Int, y: Int, listBoats: List[Boat] = boats.toList): Boat={
 
 		if(listBoats.head.x == x && listBoats.head.y <= y && y < (listBoats.head.y + listBoats.head.size) && listBoats.head.isVertical){
-			println("X OK"+ listBoats.head)
 			return listBoats.head
 
 		}else if(listBoats.head.y == y && listBoats.head.x <= x && x < (listBoats.head.size + listBoats.head.x) && listBoats.head.isHorizontal){
-			println("Y OK")
-			println(listBoats.head)
 			return listBoats.head
 
 		}else{
@@ -77,7 +72,6 @@ class Grid(){
 	}
 
 	def boatSunk(b: Boat, acc: Int = 0){
-		println(b.size)
 		if(acc < b.size){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x

@@ -42,7 +42,7 @@ class Human(g: Grid) extends Player{
 			(xTarget,yTarget)
 		  }
 		  case _ => {
-			  println("Input error, please enter a cell inside the grid")
+			  println("[ERR] * Input error, please enter a cell inside the grid \n")
 			  takeinput
 		  }
 	  	}
@@ -73,6 +73,7 @@ class Human(g: Grid) extends Player{
             case "Ship" => {
                 var boat = g.getHitBoat(x,y)
                 boat.hit
+
                 if(boat.aliveCells==0){
                     boat.sunk = true
                     g.boatSunk(boat)
@@ -81,10 +82,10 @@ class Human(g: Grid) extends Player{
                     g.setCell(x,y,"Touched")
                     ("\n\n ** x : Ship touched !")
                 }
-                
+
             }
             case _ => {
-                println("Target already destroyed, please shoot again")
+                println("[ERR] * Target already destroyed, please shoot again\n")
 
     			attackRound(g)
             }

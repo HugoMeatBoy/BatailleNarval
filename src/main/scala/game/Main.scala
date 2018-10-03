@@ -115,10 +115,9 @@ object BattleShip extends App{
 			displayVS(p2.grid)
 
 			//Attack
-			var attP1 = p1.attackRound(p2.grid)
+			println(p1.attackRound(p2.grid))
 
 			//Result
-			println(attP1)
 			displayVS(p2.grid)
 
 			//Next
@@ -155,9 +154,9 @@ object BattleShip extends App{
 
 		}else{
 			if(p1.grid.isEmpty()){
-				"\n***********    ***********\n*                   *\n Well Played Player One ! o/ \n\n\n"
+				"\n***********    ***********\n*                   *\n Well Played  Player One ! o/ \n\n\n"
 			}else{
-				"\n***********    ***********\n*                   *\n Well Played Player Two ! o/ \n\n\n"
+				"\n***********    ***********\n*                   *\n Well Played  Player Two ! o/ \n\n\n"
 			}
 
 		}
@@ -166,19 +165,17 @@ object BattleShip extends App{
 	}
 
 	def selectMode():Int={
-
 		var mode = readLine("Select game mode :\n 1 -> 1P vs CPU \n 2 -> 2P VS \n (1/2) : ")
 
 		if(!(mode.equals("1") || mode.equals("2"))) {
 			println("[ERR] * Wrong input \n")
 			selectMode
-		}else{
-			mode.toInt
-		}
+		}else mode.toInt
 	}
 
 	def selectIA():Int={
 		var lvl = readLine("Select the IA level [1-2-3] : ")
+
 		if(!(lvl.equals("1") || lvl.equals("2") ||lvl.equals("3"))) {
 			println("Wrong input")
 			selectIA
@@ -186,6 +183,6 @@ object BattleShip extends App{
 		else lvl.toInt
 	}
 
-	
+
 
 }

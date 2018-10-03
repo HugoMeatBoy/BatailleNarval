@@ -10,7 +10,6 @@ class Boat(s: Int,xB: Int, yB : Int, dir:String){
 
     def hit(){
         aliveCells -= 1
-        println(aliveCells + " <ac|size>" + size)
     }
 
     def isVertical():Boolean ={
