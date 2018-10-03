@@ -1,13 +1,13 @@
 package board
 
+import scala.collection.mutable.ListBuffer
+
 class Grid(){
 	var board = Array.ofDim[Cell](10,10)
-	var boats = Array.ofDim[Boat](5)
+	var boats = new ListBuffer[Boat]()
 
+	println(boats.toList)
 	createBoard(0,0);
-
-
-
 
 
 	def createBoard(x:Int, y:Int){
@@ -35,9 +35,10 @@ class Grid(){
 
 
 	def addBoat(b : Boat, length: Int){
-		boats :+ b
+		boats += b
 		adddBoatOnGrid(b,length)
 	}
+
 
 	def adddBoatOnGrid(b: Boat, length: Int){
 		if(length != 0){
@@ -54,24 +55,48 @@ class Grid(){
 					this.setCell(xb,yb,"Ship")
 				}
 			}
-			addBoat(b,length - 1)
+			adddBoatOnGrid(b,length - 1)
 		}
 	}
 
 
-	def getHitBoat(x: Int, y: Int, acc: Int = 0): Boat={
-		if(boats(acc).x == x){
-			if(boats(acc).y >= y &&  boats(acc).y < (y + boats(acc).size)){
-				boats(acc)
-			}
-		}else if(boats(acc).y == y ){
-			if(boats(acc).x >= x &&  boats(acc).x < (x + boats(acc).size)){
-				boats(acc)
-			}
-		}
+	def getHitBoat(x: Int, y: Int, listBoats: List[Boat] = boats.toList): Boat={
 
-		getHitBoat(x,y,acc+1)
+		if(listBoats.head.x == x && listBoats.head.y <= y && y < (listBoats.head.y + listBoats.head.size) && listBoats.head.isVertical){
+			println("X OK"+ listBoats.head)
+			return listBoats.head
+
+		}else if(listBoats.head.y == y && listBoats.head.x <= x && x < (listBoats.head.size + listBoats.head.x) && listBoats.head.isHorizontal){
+			println("Y OK")
+			println(listBoats.head)
+			return listBoats.head
+
+		}else{
+			getHitBoat(x,y,listBoats.tail)
+		}
 	}
+
+	def boatSunk(b: Boat, acc: Int = 0){
+		println(b.size)
+		if(acc < b.size){
+			if(b.direction.equals("v") || b.direction.equals("V")){
+					var xb = b.x
+					var yb = b.y + acc
+					if(this.checkCell(xb,yb) == "Ship" || this.checkCell(xb,yb) == "Touched"){
+						this.setCell(xb,yb,"Sunk")
+					}
+			}else{
+				var xb = b.x + acc
+				var yb = b.y
+				if(this.checkCell(xb,yb) == "Ship" || this.checkCell(xb,yb) == "Touched"){
+					this.setCell(xb,yb,"Sunk")
+				}
+			}
+			boatSunk(b, acc+1)
+		}
+	}
+
+
 
 	def isEmpty(x: Int = 0, y: Int = 0):Boolean={
 		if(checkCell(x,y) != "Ship"){

@@ -9,15 +9,17 @@ class Boat(s: Int,xB: Int, yB : Int, dir:String){
     var sunk: Boolean = false
 
     def hit(){
-        aliveCells -=1
+        aliveCells -= 1
         println(aliveCells + " <ac|size>" + size)
     }
 
     def isVertical():Boolean ={
-        (direction.equals("V") || direction.equals("V"))
+        if(direction.equals("V") || direction.equals("V")){true}
+        else false
     }
 
     def isHorizontal():Boolean ={
-        (direction.equals("H") || direction.equals("h"))
+        if(direction.equals("H") || direction.equals("h")){true}
+        else false
     }
 }

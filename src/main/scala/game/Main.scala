@@ -51,8 +51,13 @@ object BattleShip extends App{
 		var gridPlayer2 = createBoats()
 		gridPlayer2.displayOwn
 		var player2 = new Human(gridPlayer2)
-
+		println("\n *** Boats placed \n\n")
 		pressEnterToContinue()
+
+
+
+
+
 		println("Good luck, have fun ! o/\n\n\n")
 
 		runGame = gameLoop(player1,player2,false)
@@ -149,7 +154,12 @@ object BattleShip extends App{
 
 
 		}else{
-			"GG WP"
+			if(p1.grid.isEmpty()){
+				"\n***********    ***********\n*                   *\n Well Played Player One ! o/ \n\n\n"
+			}else{
+				"\n***********    ***********\n*                   *\n Well Played Player Two ! o/ \n\n\n"
+			}
+
 		}
 
 
@@ -176,10 +186,6 @@ object BattleShip extends App{
 		else lvl.toInt
 	}
 
-	def pressEnterToContinue(){
-		readLine("\n*** Press enter to continue to next player !")
-		println("\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n")
-		readLine("\n*** Next player press enter !")
-	}
+	
 
 }

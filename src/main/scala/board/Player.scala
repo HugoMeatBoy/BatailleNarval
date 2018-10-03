@@ -68,11 +68,20 @@ class Human(g: Grid) extends Player{
 		g.checkCell(x,y) match {
             case "Empty" => {
                 g.setCell(x,y,"Missed")
-                "Target missed"
+                "\n\n ** o : Target missed"
             }
             case "Ship" => {
-                g.setCell(x,y,"Touched")
-                "Hit !"
+                var boat = g.getHitBoat(x,y)
+                boat.hit
+                if(boat.aliveCells==0){
+                    boat.sunk = true
+                    g.boatSunk(boat)
+                    ("\n\n ** X : Ship sunk !!!")
+                }else{
+                    g.setCell(x,y,"Touched")
+                    ("\n\n ** x : Ship touched !")
+                }
+                
             }
             case _ => {
                 println("Target already destroyed, please shoot again")

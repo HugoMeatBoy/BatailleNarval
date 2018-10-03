@@ -25,7 +25,7 @@ object Console{
                 (xTarget,yTarget)
                 }
                 case _ => {
-                    println("Input error, please enter a cell inside the grid")
+                    println("[ERR] * Input error, please enter a cell inside the grid\n")
                     takeCellInput
                 }
             }
@@ -52,23 +52,28 @@ object Console{
 
 
     def checkValidBoat(dir: String, size: Int, coord : Tuple2[Int,Int], g : Grid): Boolean= {
-        if(dir.equals("V") || dir.equals("v")){
-            if(coord._1 + size >= 10){
-                println("There is not enough space for this boat")
+        if(dir.equals("h") || dir.equals("H")){
+            if(coord._1 + size > 10){
+                println("[ERR] * There is not enough space for this boat\n")
                 false
+            }else if(!checkAvailabilty(dir,size,coord,g)){
+                println("[ERR] * There is already a boat here")
+                false
+            }else{
+                true
             }
         }else{
-            if(coord._2 + size >= 10){
-                println("There is not enough space for this boat " + ())
+            if(coord._2 + size > 10){
+                println("[ERR] * There is not enough space for this boat \n")
                 false
+            }else if(!checkAvailabilty(dir,size,coord,g)){
+                println("[ERR] * There is already a boat here")
+                false
+            }else{
+                true
             }
         }
-        if(!checkAvailabilty(dir,size,coord,g)){
-            println("There is already a boat here")
-            false
-        }else{
-            true
-        }
+
     }
 
     def checkAvailabilty(dir: String, size: Int, coord : Tuple2[Int,Int],g: Grid): Boolean={
@@ -94,6 +99,8 @@ object Console{
         var cell = checkValidCell(takeCellInput())
 
         if(checkValidBoat(dir, size, cell, g)){
+            println(checkValidBoat(dir, size, cell, g))
+            println(size + " size @ insterBoat")
             var b1 = new Boat(size, cell._1, cell._2, dir)
             return b1
         }else{
@@ -149,4 +156,10 @@ object Console{
             }
         }
     }
+
+    def pressEnterToContinue(){
+		readLine("\n*** Press enter to continue to next player !")
+		println("\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n")
+		readLine("\n*** Next player press enter !")
+	}
 }
