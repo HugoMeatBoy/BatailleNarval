@@ -43,7 +43,6 @@ object Ascii{
         println("      9 | " + g.board(0)(8).render + " | " + g.board(1)(8).render + " | " + g.board(2)(8).render + " | " + g.board(3)(8).render + " | " + g.board(4)(8).render + " | " + g.board(5)(8).render + " | "+ g.board(6)(8).render + " | "+ g.board(7)(8).render + " | " + g.board(8)(8).render + " | " + g.board(9)(8).render)
         println("     ---|---|---|---|---|---|---|---|---|---|---")
         println("      10| " + g.board(0)(9).render + " | " + g.board(1)(9).render + " | " + g.board(2)(9).render + " | " + g.board(3)(9).render + " | " + g.board(4)(9).render + " | " + g.board(5)(9).render + " | "+ g.board(6)(9).render + " | "+ g.board(7)(9).render + " | " + g.board(8)(9).render + " | " + g.board(9)(9).render)
-
     }
 
 

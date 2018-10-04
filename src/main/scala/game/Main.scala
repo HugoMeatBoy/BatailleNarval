@@ -22,14 +22,17 @@ object BattleShip extends App{
 		levelIA match {
 			case 1 => {
 				var ia = new IAlvl1()
+				ia.createBoard
 				runGame = gameLoopIA(player,ia,false)
 			}
 			case 2 =>{
 				var ia = new IAlvl2()
+				ia.createBoard
 				runGame = gameLoopIA(player,ia,false)
 			}
 			case 3 => {
 				var ia = new IAlvl3()
+				ia.createBoard
 				runGame = gameLoopIA(player,ia,false)
 			}
 			case _ => {
@@ -41,7 +44,7 @@ object BattleShip extends App{
 
 		println("\n********* Boats setup - Player 1 ********* \n")
 		var gridPlayer1 = createBoats()
-		gridPlayer1.displayOwn
+		displayOwn(gridPlayer1)
 		var player1 = new Human(gridPlayer1)
 
 
@@ -49,7 +52,7 @@ object BattleShip extends App{
 
 		println("\n********* Boats setup - Player 2 ********* \n")
 		var gridPlayer2 = createBoats()
-		gridPlayer2.displayOwn
+		displayOwn(gridPlayer2)
 		var player2 = new Human(gridPlayer2)
 		println("\n *** Boats placed \n\n")
 		pressEnterToContinue()
@@ -65,27 +68,46 @@ object BattleShip extends App{
 
 	}
 
-
-
-
-
-
-
-
-
 	println(runGame)
 
 
 
 	def gameLoopIA(p1: Player, p2: Player,winner : Boolean):String={
-		displayOwn(p1.grid)
-		displayVS(p2.grid)
 		if(!winner){
 			println("\n********* Next turn ********* \n")
 
+			/*
+				Player One
+			*/
 
-			p1.attackRound(p2.grid)
-			//defRound(p2)
+			//Visualization
+			displayOwn(p1.grid)
+			displayVS(p2.grid)
+
+			//Attack
+			println(p1.attackRound(p2.grid))
+
+			//Result
+			displayVS(p2.grid)
+
+			//Next
+			pressEnterToContinue
+
+
+
+			/*
+				Player Two
+			*/
+			println("\n********* Next turn - IA ********* \n")
+
+			//Attack
+			println(p2.attackRound(p1.grid))
+
+			//Result
+			displayVS(p1.grid)
+
+			//Next
+			pressEnterToContinue
 
 			if(p1.grid.isEmpty() || p2.grid.isEmpty()){
 				gameLoopIA(p1, p2, true)
@@ -95,7 +117,23 @@ object BattleShip extends App{
 
 
 		}else{
-			"GG WP"
+			if(p2.grid.isEmpty()){
+				if(!(p2.getClass.toString.equals("IAlvl3"))){
+						"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n *************** Try out a harder mode !\n"
+				}else{
+					"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n *************** Try out a harder mode !\n"
+
+				}
+
+			}else{
+				if(!(p2.getClass.toString.equals("IAlvl1"))){
+					"\n***********    ***********\n*                   *\n You lose, sorry. Maybe try an easier IA mode ! o/ \n\n\n"
+				}else{
+					"\n***********                ***********\n*                   *\n Well.. that was the easiest IA mode, only random.. \n\n Let's say it was a perfect random this time... \n\n"
+
+				}
+
+			}
 		}
 
 

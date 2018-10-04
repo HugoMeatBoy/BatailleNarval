@@ -1,6 +1,7 @@
 package UI
 
 import board._
+import Ascii._
 
 object Console{
 
@@ -73,7 +74,6 @@ object Console{
                 true
             }
         }
-
     }
 
     def checkAvailabilty(dir: String, size: Int, coord : Tuple2[Int,Int],g: Grid): Boolean={
@@ -112,31 +112,31 @@ object Console{
 		var g = new Grid
 		println("\n*** Now place your boats !\n")
 
-        g.displayOwn
+        displayOwn(g)
 
 		var dir5 = getDirection(5)
 
         println("\nSelectionnez la première case du bateau (en haut à droite) :")
         g.addBoat(insertBoat(dir5, 5, g), 5)
-        g.displayOwn
+        displayOwn(g)
 
         var dir4 = getDirection(4)
 
         println("\nSelectionnez la première case du bateau (en haut à droite) :")
         g.addBoat(insertBoat(dir4, 4, g), 4)
-        g.displayOwn
+        displayOwn(g)
 
         var dir3 = getDirection(3)
 
         println("\nSelectionnez la première case du bateau (en haut à droite) :")
         g.addBoat(insertBoat(dir3, 3, g), 3)
-        g.displayOwn
+        displayOwn(g)
 
         var dir2 = getDirection(3)
 
         println("\nSelectionnez la première case du bateau (en haut à droite) :")
         g.addBoat(insertBoat(dir2, 3, g), 3)
-        g.displayOwn
+        displayOwn(g)
 
         var dir1 = getDirection(2)
 
