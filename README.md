@@ -18,7 +18,6 @@ The only thing you need is SBT, an interactive Scala build tool
 
 1. Clone this repo and move to this directory
 2. Execute the SBT tool to access the BattleShip project
-3. Run BattleShip
 
 ```
 git clone https://github.com/HugoMeatBoy/BatailleNarval
