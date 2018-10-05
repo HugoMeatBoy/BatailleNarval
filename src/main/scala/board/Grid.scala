@@ -39,7 +39,6 @@ class Grid(){
 
 
 	def adddBoatOnGrid(b: Boat, length: Int){
-		println("test")
 		if(length != 0){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x
@@ -60,19 +59,6 @@ class Grid(){
 
 
 	def getHitBoat(x: Int, y: Int, listBoats: List[Boat] = boats.toList): Boat={
-		println(listBoats.head)
-
-		println("head.x == x        :      " + listBoats.head.x + "  ==?   " + x)
-		println("listBoats.head.y <= y :        " + listBoats.head.y + "   <=?   "+ y)
-		println("y < (listBoats.head.y + listBoats.head.size)   :       " + y+  "   <?   "+ (listBoats.head.y + listBoats.head.size))
-		println("isVertical?    :"   +listBoats.head.isVertical+"\n\n")
-
-
-		println("head.y == y        :          " + listBoats.head.y + "   ==?   " + y)
-		println("listBoats.head.x <= x    :        " + listBoats.head.x + "  <=?  "+ x)
-		println("x < (listBoats.head.x + listBoats.head.size)       :            " + x+  "  <?  "+ (listBoats.head.x + listBoats.head.size))
-		println("isHorizontal?    :"   +listBoats.head.isHorizontal+"\n\n")
-
 		if(listBoats.head.x == x && listBoats.head.y <= y && y < (listBoats.head.y + listBoats.head.size) && listBoats.head.isVertical){
 			return listBoats.head
 
@@ -105,9 +91,17 @@ class Grid(){
 
 
 
-	def isEmpty():Boolean={
-		var x = boats.map(boat => if (!boat.sunk) false)
-		println(x.length)
-		false
+	def isEmpty(lb: List[Boat] = boats.toList):Boolean={
+		if(lb.size > 0){
+			if(lb.head.sunk){
+				isEmpty(lb.tail)
+			}else{
+				false
+			}
+		}else{
+			true
+		}
+
+
 	}
 }

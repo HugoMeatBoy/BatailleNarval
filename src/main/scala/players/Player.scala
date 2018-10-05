@@ -22,7 +22,7 @@ class Human(g: Grid) extends Player{
 
 
 	def takeinput():Tuple2[Char,Int] = {
-		var target =  readLine("Entrez une case à viser : ")
+		var target =  readLine("Select a cell to fire : ")
 		val regex = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1,2,3,4,5,6,7,8,9]".r
 		val regexTen = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1][0]".r
 
@@ -67,7 +67,7 @@ class Human(g: Grid) extends Player{
 		g.checkCell(x,y) match {
             case "Empty" => {
                 g.setCell(x,y,"Missed")
-                "\n\n ** o : Target missed"
+                "\n\n ** o : Target missed "
             }
             case "Ship" => {
                 var boat = g.getHitBoat(x,y)

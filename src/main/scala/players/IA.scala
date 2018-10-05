@@ -24,7 +24,7 @@ class IAlvl1 extends Player with IA {
         g.checkCell(cellShot._1,cellShot._2) match {
             case "Empty" => {
                 g.setCell(cellShot._1,cellShot._2,"Missed")
-                "\n\n ** o : Target missed"
+                "\n\n ** o : Target missed "
             }
             case "Ship" => {
                 var boat = g.getHitBoat(cellShot._1,cellShot._2)

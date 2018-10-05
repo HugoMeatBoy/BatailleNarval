@@ -20,7 +20,7 @@ object Ascii{
 
     def displayOwn(g:Grid){
         println("\n\n ************** Your grid\n")
-        println("≡ = Ship, Ø = Ship touched, X = Ship sunk \n")
+        println("s = Ship, Ø = Ship touched, X = Ship sunk \n")
 
         println("        | A | B | C | D | E | F | G | H | I | J  ")
         println("     ---|---|---|---|---|---|---|---|---|---|---")
@@ -28,7 +28,7 @@ object Ascii{
         println("     ---|---|---|---|---|---|---|---|---|---|---")
         println("      2 | " + g.board(0)(1).render + " | " + g.board(1)(1).render + " | " + g.board(2)(1).render + " | " + g.board(3)(1).render + " | " + g.board(4)(1).render + " | " + g.board(5)(1).render + " | "+ g.board(6)(1).render + " | "+ g.board(7)(1).render + " | " + g.board(8)(1).render + " | " + g.board(9)(1).render)
         println("     ---|---|---|---|---|---|---|---|---|---|---")
-        println("      3 | " + g.board(0)(2).render + " | " + g.board(1)(2).render + " | " + g.board(2)(2).render + " | " + g.board(3)(2).render + " | " + g.board(4)(2).render + " | " + g.board(5)(2).render + " | "+ g.board(6)(2).render + " | "+ g.board(7)(2).render + " | " + g.board(8)(2).render + " | " + g.board(9)(3).render)
+        println("      3 | " + g.board(0)(2).render + " | " + g.board(1)(2).render + " | " + g.board(2)(2).render + " | " + g.board(3)(2).render + " | " + g.board(4)(2).render + " | " + g.board(5)(2).render + " | "+ g.board(6)(2).render + " | "+ g.board(7)(2).render + " | " + g.board(8)(2).render + " | " + g.board(9)(2).render)
         println("     ---|---|---|---|---|---|---|---|---|---|---")
         println("      4 | " + g.board(0)(3).render + " | " + g.board(1)(3).render + " | " + g.board(2)(3).render + " | " + g.board(3)(3).render + " | " + g.board(4)(3).render + " | " + g.board(5)(3).render + " | "+ g.board(6)(3).render + " | "+ g.board(7)(3).render + " | " + g.board(8)(3).render + " | " + g.board(9)(3).render)
         println("     ---|---|---|---|---|---|---|---|---|---|---")
@@ -49,7 +49,7 @@ object Ascii{
 
     def displayVS(g:Grid){
         println("\n\n ************** Opponent grid\n")
-        println("x = Ship touched, X = Ship sunk, o = Shot missed \n")
+        println("Ø = Ship touched, X = Ship sunk, o = Shot missed \n")
 
         println("        | A | B | C | D | E | F | G | H | I | J  ")
         println("     ---|---|---|---|---|---|---|---|---|---|---")
@@ -57,7 +57,7 @@ object Ascii{
         println("     ---|---|---|---|---|---|---|---|---|---|---")
         println("      2 | " + g.board(0)(1).renderHidden + " | " + g.board(1)(1).renderHidden + " | " + g.board(2)(1).renderHidden + " | " + g.board(3)(1).renderHidden + " | " + g.board(4)(1).renderHidden + " | " + g.board(5)(1).renderHidden + " | "+ g.board(6)(1).renderHidden + " | "+ g.board(7)(1).renderHidden + " | " + g.board(8)(1).renderHidden + " | " + g.board(9)(1).renderHidden)
         println("     ---|---|---|---|---|---|---|---|---|---|---")
-        println("      3 | " + g.board(0)(2).renderHidden + " | " + g.board(1)(2).renderHidden + " | " + g.board(2)(2).renderHidden + " | " + g.board(3)(2).renderHidden + " | " + g.board(4)(2).renderHidden + " | " + g.board(5)(2).renderHidden + " | "+ g.board(6)(2).renderHidden + " | "+ g.board(7)(2).renderHidden + " | " + g.board(8)(2).renderHidden + " | " + g.board(9)(3).renderHidden)
+        println("      3 | " + g.board(0)(2).renderHidden + " | " + g.board(1)(2).renderHidden + " | " + g.board(2)(2).renderHidden + " | " + g.board(3)(2).renderHidden + " | " + g.board(4)(2).renderHidden + " | " + g.board(5)(2).renderHidden + " | "+ g.board(6)(2).renderHidden + " | "+ g.board(7)(2).renderHidden + " | " + g.board(8)(2).renderHidden + " | " + g.board(9)(2).renderHidden)
         println("     ---|---|---|---|---|---|---|---|---|---|---")
         println("      4 | " + g.board(0)(3).renderHidden + " | " + g.board(1)(3).renderHidden + " | " + g.board(2)(3).renderHidden + " | " + g.board(3)(3).renderHidden + " | " + g.board(4)(3).renderHidden + " | " + g.board(5)(3).renderHidden + " | "+ g.board(6)(3).renderHidden + " | "+ g.board(7)(3).renderHidden + " | " + g.board(8)(3).renderHidden + " | " + g.board(9)(3).renderHidden)
         println("     ---|---|---|---|---|---|---|---|---|---|---")

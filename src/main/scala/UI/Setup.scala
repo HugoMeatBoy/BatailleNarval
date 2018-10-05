@@ -17,31 +17,31 @@ object SetupConsole{
 
 		var dir5 = getDirection(5)
 
-        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        println("\nSelect the first cell of the boat (at right top) :")
         g.addBoat(insertBoat(dir5, 5, g), 5)
         displayOwn(g)
 
         var dir4 = getDirection(4)
 
-        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        println("\nSelect the first cell of the boat (at right top) :")
         g.addBoat(insertBoat(dir4, 4, g), 4)
         displayOwn(g)
 
         var dir3 = getDirection(3)
 
-        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        println("\nSelect the first cell of the boat (at right top) :")
         g.addBoat(insertBoat(dir3, 3, g), 3)
         displayOwn(g)
 
         var dir2 = getDirection(3)
 
-        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        println("\nSelect the first cell of the boat (at right top) :")
         g.addBoat(insertBoat(dir2, 3, g), 3)
         displayOwn(g)
 
         var dir1 = getDirection(2)
 
-        println("\nSelectionnez la première case du bateau (en haut à droite) :")
+        println("\nSelect the first cell of the boat (at right top) :")
         g.addBoat(insertBoat(dir1, 2, g), 2)
 
         g

@@ -7,7 +7,7 @@ object Console{
 
 
     def takeCellInput():Tuple2[Char,Int] = {
-            var target =  readLine("Select a cell : ")
+            var target =  readLine("Input cell : ")
             val regex = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1,2,3,4,5,6,7,8,9]".r
             val regexTen = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1][0]".r
 

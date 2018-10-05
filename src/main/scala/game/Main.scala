@@ -17,7 +17,8 @@ object BattleShip extends App{
 	var runGame = ""
 
 	if(menu == 1){
-		var levelIA = selectIA()
+		//var levelIA = selectIA()
+		var levelIA = 1
 
 		var gridPlayer = createBoats()
 		var player = new Human(gridPlayer)
@@ -43,7 +44,7 @@ object BattleShip extends App{
 				runGame = gameLoopIA(player,ia,false)
 			}
 		}
-		
+
 	}else{
 
 		println("\n********* Boats setup - Player 1 ********* \n")
@@ -90,40 +91,35 @@ object BattleShip extends App{
 			//Result
 			displayVS(p2.grid)
 
-			//Next
-			pressEnterToContinue
+			if(!p2.grid.isEmpty()){
+				//Next
+				pressEnterToContinue
 
+				/*
+					Player Two
+				*/
+				println("\n********* Next turn - IA ********* \n")
 
-			if(p2.grid.isEmpty()){
-				gameLoopIA(p1, p2, true)
-			}
-			/*
-				Player Two
-			*/
-			println("\n********* Next turn - IA ********* \n")
+				//Attack
+				println(p2.attackRound(p1.grid))
 
-			//Attack
-			println(p2.attackRound(p1.grid))
+				//Result
+				displayVS(p1.grid)
 
-			//Result
-			displayVS(p1.grid)
-
-			//Next
-			pressEnterToContinue
-
-			if(p1.grid.isEmpty()){
-				gameLoopIA(p1, p2, true)
+				if(!p1.grid.isEmpty()){
+					gameLoopIA(p1, p2, false)
+				}else{
+					gameLoopIA(p1, p2, true)
+				}
 			}else{
-				gameLoopIA(p1, p2, false)
+				gameLoopIA(p1, p2, true)
 			}
-
-
 		}else{
 			if(p2.grid.isEmpty()){
 				if(!(p2.getClass.toString.equals("IAlvl3"))){
-						"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n *************** Try out a harder mode !\n"
+						"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n *************** Try out a harder mode (COMING SOON) !\n"
 				}else{
-					"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n *************** Try out a harder mode !\n"
+					"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n"
 
 				}
 
@@ -131,7 +127,7 @@ object BattleShip extends App{
 				if(!(p2.getClass.toString.equals("IAlvl1"))){
 					"\n***********    ***********\n*                   *\n You lose, sorry. Maybe try an easier IA mode ! o/ \n\n\n"
 				}else{
-					"\n***********                ***********\n*                   *\n Well.. that was the easiest IA mode, only random.. \n\n Let's say it was a perfect random this time... \n\n"
+					"\n***********                ***********\n*                   *\n Well.. that was the easiest IA mode, only random.. \n\n Let's say it was a perfect rng for this time... \n\n"
 
 				}
 
@@ -142,7 +138,6 @@ object BattleShip extends App{
 	}
 
 	def gameLoop(p1: Player, p2: Player,winner : Boolean):String={
-
 		if(!winner){
 
 			/*
@@ -157,42 +152,41 @@ object BattleShip extends App{
 			//Attack
 			println(p1.attackRound(p2.grid))
 
-			//Result
+			//Result + Check winner
 			displayVS(p2.grid)
+			if(!p2.grid.isEmpty()){
 
-			//Next
-			pressEnterToContinue
+				//Next
+				pressEnterToContinue
 
-			if(p2.grid.isEmpty()){
-				gameLoop(p1, p2, true)
-			}
+				/*
+					Player Two
+				*/
+				println("\n********* Next turn - Player 2 ********* \n")
 
-			/*
-				Player Two
-			*/
-			println("\n********* Next turn - Player 2 ********* \n")
+				//Visualization
+				displayOwn(p2.grid)
+				displayVS(p1.grid)
 
-			//Visualization
-			displayOwn(p2.grid)
-			displayVS(p1.grid)
+				//Attack
+				println(p2.attackRound(p1.grid))
 
-			//Attack
-			println(p2.attackRound(p1.grid))
-
-			//Result
-			displayVS(p1.grid)
+				//Result
+				displayVS(p1.grid)
 
 
 
-			//Next
-			pressEnterToContinue
 
-			if(p1.grid.isEmpty()){
-				gameLoop(p1, p2, true)
+				if(!p1.grid.isEmpty()){
+					//Next
+					pressEnterToContinue
+					gameLoop(p1, p2, false)
+				}else{
+					gameLoop(p1, p2, true)
+				}
 			}else{
-				gameLoop(p1, p2, false)
+				gameLoop(p1, p2, true)
 			}
-
 
 		}else{
 			if(p1.grid.isEmpty()){
