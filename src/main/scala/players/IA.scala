@@ -1,11 +1,13 @@
-package board
-import Random._
+package players
+
+import board._
+import game.Random._
 import UI.Console._
 import UI.Ascii._
+import UI.SetupIA._
 
 trait IA {
     def shoot():Tuple2[Int,Int]
-    def createBoard():Unit
 }
 
 
@@ -47,34 +49,8 @@ class IAlvl1 extends Player with IA {
     }
 
     def createBoard(){
-        createBoat(5)
+        createBoats(grid)
         displayOwn(grid)
-    }
-
-    def createBoat(size: Int){
-        if(size>0){
-            var dir = pickRandomDir
-            var cell = pickRandomCell
-
-            if(size<3){
-
-                if(checkValidBoat(dir, size + 1, cell, grid)){
-                    println(size)
-                    grid.addBoat(new Boat(size+1, cell._1, cell._2, dir), size+1)
-                    createBoat(size-1)
-                }else{
-                    createBoat(size)
-                }
-            }else{
-                if(checkValidBoat(dir, size, cell, grid)){
-                    println(size)
-                    grid.addBoat(new Boat(size, cell._1, cell._2, dir), size)
-                    createBoat(size-1)
-                }else{
-                    createBoat(size)
-                }
-            }
-        }
     }
 }
 
@@ -97,7 +73,7 @@ class IAlvl2 extends Player with IA {
     def shoot:Tuple2[Int,Int]={(1,1)}
     def attackRound(g : Grid): String={" 0 "}
     def createBoard(){
-
+        createBoats(grid)
     }
 }
 
@@ -105,23 +81,8 @@ class IAlvl3 extends Player with IA {
     var grid = new Grid()
     def shoot:Tuple2[Int,Int]={(1,1)}
     def attackRound(g : Grid): String={" 0 "}
-    def createBoard(){ }
-}
-
-
-object Random{
-    def pickRandomCell():Tuple2[Int,Int]={
-        var rc = scala.util.Random
-        var xR = rc.nextInt(10)
-        var yR = rc.nextInt(10)
-        (xR,yR)
+    def createBoard(){
+        createBoats(grid)
     }
-    def pickRandomDir():String={
-        var rd = scala.util.Random
-        var d = rd.nextInt(2)
-        d match {
-            case 1 => "h"
-            case _ => "v"
-        }
-    }
+
 }

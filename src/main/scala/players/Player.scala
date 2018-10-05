@@ -1,4 +1,7 @@
-package board
+package players
+
+import board._
+import UI.SetupConsole._
 
 abstract class Player {
     var grid: Grid

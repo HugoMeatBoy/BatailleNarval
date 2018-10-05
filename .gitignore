@@ -266,3 +266,7 @@ project/target/streams/runtime/managedClasspath/\$global/streams/export
 project/target/streams/runtime/unmanagedClasspath/\$global/streams/export
 
 project/target/streams/runtime/unmanagedJars/\$global/streams/export
+
+*.class
+
+target/streams/test/\$global/\$global/definedTestNames/data

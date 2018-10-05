@@ -1,8 +1,11 @@
 package game
 
 import board._
+import players._
+
 import UI.Console._
 import UI.Ascii._
+import UI.SetupConsole._
 
 import scala.util.matching.Regex
 
@@ -40,6 +43,7 @@ object BattleShip extends App{
 				runGame = gameLoopIA(player,ia,false)
 			}
 		}
+		
 	}else{
 
 		println("\n********* Boats setup - Player 1 ********* \n")
@@ -58,13 +62,9 @@ object BattleShip extends App{
 		pressEnterToContinue()
 
 
-
-
-
 		println("Good luck, have fun ! o/\n\n\n")
 
 		runGame = gameLoop(player1,player2,false)
-
 
 	}
 
@@ -94,7 +94,9 @@ object BattleShip extends App{
 			pressEnterToContinue
 
 
-
+			if(p2.grid.isEmpty()){
+				gameLoopIA(p1, p2, true)
+			}
 			/*
 				Player Two
 			*/
@@ -109,7 +111,7 @@ object BattleShip extends App{
 			//Next
 			pressEnterToContinue
 
-			if(p1.grid.isEmpty() || p2.grid.isEmpty()){
+			if(p1.grid.isEmpty()){
 				gameLoopIA(p1, p2, true)
 			}else{
 				gameLoopIA(p1, p2, false)
@@ -161,7 +163,9 @@ object BattleShip extends App{
 			//Next
 			pressEnterToContinue
 
-
+			if(p2.grid.isEmpty()){
+				gameLoop(p1, p2, true)
+			}
 
 			/*
 				Player Two
@@ -183,7 +187,7 @@ object BattleShip extends App{
 			//Next
 			pressEnterToContinue
 
-			if(p1.grid.isEmpty() || p2.grid.isEmpty()){
+			if(p1.grid.isEmpty()){
 				gameLoop(p1, p2, true)
 			}else{
 				gameLoop(p1, p2, false)

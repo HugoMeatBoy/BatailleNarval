@@ -60,6 +60,18 @@ class Grid(){
 
 
 	def getHitBoat(x: Int, y: Int, listBoats: List[Boat] = boats.toList): Boat={
+		println(listBoats.head)
+
+		println("head.x == x        :      " + listBoats.head.x + "  ==?   " + x)
+		println("listBoats.head.y <= y :        " + listBoats.head.y + "   <=?   "+ y)
+		println("y < (listBoats.head.y + listBoats.head.size)   :       " + y+  "   <?   "+ (listBoats.head.y + listBoats.head.size))
+		println("isVertical?    :"   +listBoats.head.isVertical+"\n\n")
+
+
+		println("head.y == y        :          " + listBoats.head.y + "   ==?   " + y)
+		println("listBoats.head.x <= x    :        " + listBoats.head.x + "  <=?  "+ x)
+		println("x < (listBoats.head.x + listBoats.head.size)       :            " + x+  "  <?  "+ (listBoats.head.x + listBoats.head.size))
+		println("isHorizontal?    :"   +listBoats.head.isHorizontal+"\n\n")
 
 		if(listBoats.head.x == x && listBoats.head.y <= y && y < (listBoats.head.y + listBoats.head.size) && listBoats.head.isVertical){
 			return listBoats.head
@@ -93,19 +105,9 @@ class Grid(){
 
 
 
-	def isEmpty(x: Int = 0, y: Int = 0):Boolean={
-		if(checkCell(x,y) != "Ship"){
-			if(x == 9){
-				if(y == 9){
-					true
-				}else{
-					isEmpty(0,y+1)
-				}
-			}else{
-				isEmpty(x+1,y)
-			}
-		}else{
-			false
-		}
+	def isEmpty():Boolean={
+		var x = boats.map(boat => if (!boat.sunk) false)
+		println(x.length)
+		false
 	}
 }
