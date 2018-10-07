@@ -13,7 +13,7 @@ class Boat(s: Int,xB: Int, yB : Int, dir:String){
     }
 
     def isVertical():Boolean ={
-        if(direction.equals("V") || direction.equals("V")){true}
+        if(direction.equals("V") || direction.equals("v")){true}
         else false
     }
 

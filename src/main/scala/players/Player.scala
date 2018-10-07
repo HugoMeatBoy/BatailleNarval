@@ -1,8 +1,10 @@
-package board
+package players
+
+import board._
+import UI.SetupConsole._
 
 abstract class Player {
     var grid: Grid
-//    var boat5,boat4,boat3_1,boat3_2,boat2: Boat
     def attackRound(g: Grid):String
 }
 
@@ -10,12 +12,9 @@ abstract class Player {
 
 class Human(g: Grid) extends Player{
     var grid: Grid = g
-/*    var boat5 = new Boat(5)
-    var boat4 = new Boat(4)
-    var boat3_1 = new Boat(3)
-    var boat3_2 = new Boat(3)
-    var boat2 = new Boat(2)
-*/
+
+
+
 	def attackRound(g : Grid): String={
 		var target = takeinput()
 		attack(g, target._1,target._2)
@@ -23,7 +22,7 @@ class Human(g: Grid) extends Player{
 
 
 	def takeinput():Tuple2[Char,Int] = {
-		var target =  readLine("Entrez une case à viser : ")
+		var target =  readLine("Select a cell to fire : ")
 		val regex = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1,2,3,4,5,6,7,8,9]".r
 		val regexTen = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1][0]".r
 
@@ -68,7 +67,7 @@ class Human(g: Grid) extends Player{
 		g.checkCell(x,y) match {
             case "Empty" => {
                 g.setCell(x,y,"Missed")
-                "\n\n ** o : Target missed"
+                "\n\n ** o : Target missed "
             }
             case "Ship" => {
                 var boat = g.getHitBoat(x,y)

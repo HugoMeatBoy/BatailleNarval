@@ -6,8 +6,8 @@ class Cell(s:String){
 	def render():String={
 		if(state.equals("Touched")) "Ø"
 		else if(state.equals("Sunken")) "X"
-		else if(state.equals("Ship")) "≡"
-		if(state.equals("Missed")) "o"
+		else if(state.equals("Ship")) "s"
+		else if(state.equals("Missed")) "o"
 		else " "
 	}
 
