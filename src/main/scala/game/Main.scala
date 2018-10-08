@@ -70,7 +70,9 @@ object BattleShip extends App{
 	}else{
 		println("\n\n\n****************  TESTING MODE *******************\n\n\n")
 
-		println("IA2 won " + testLoop() + " on 1000 games")
+		println("IA2 won " + testLoop12() + " times on 1000 games vs IA1")
+
+		println("IA3 won " + testLoop23() + " times on 1000 games vs IA2")
 
 		runGame = "\n\n *** Tests runned "
 	}
@@ -79,6 +81,12 @@ object BattleShip extends App{
 	println(runGame)
 
 
+
+
+
+	/*
+		Mode 1P vs IA
+	*/
 	def gameLoopIA(p1: Player, p2: Player,winner : Boolean):String={
 		if(!winner){
 			println("\n****************************************\n********* Next turn - Player 1 ********* \n")
@@ -141,6 +149,10 @@ object BattleShip extends App{
 
 	}
 
+
+	/*
+		Mode 2P
+	*/
 	def gameLoop(p1: Player, p2: Player,winner : Boolean):String={
 		if(!winner){
 
@@ -177,9 +189,6 @@ object BattleShip extends App{
 
 				//Result
 				displayVS(p1.grid)
-
-
-
 
 				if(!p1.grid.isEmpty()){
 					//Next

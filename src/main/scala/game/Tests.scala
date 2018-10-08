@@ -4,7 +4,7 @@ import board._
 import players._
 
 object Tests{
-    def testLoop(nb: Int = 0, countWin: Int = 0): String={
+    def testLoop12(nb: Int = 0, countWin: Int = 0): String={
 		if(nb <= 1000){
 			var ia1 = new IAlvl1()
 			ia1.createBoard
@@ -12,11 +12,28 @@ object Tests{
 			ia2.createBoard
 
 			if(gameLoopTest(ia1,ia2,false).equals("1")){
-				testLoop(nb+1,countWin+1)
+				testLoop12(nb+1,countWin+1)
 			}else{
-				testLoop(nb+1,countWin)
+				testLoop12(nb+1,countWin)
 			}
-		}else{    
+		}else{
+			countWin.toString
+		}
+	}
+
+    def testLoop23(nb: Int = 0, countWin: Int = 0): String={
+		if(nb <= 1000){
+			var ia2 = new IAlvl2()
+			ia2.createBoard
+			var ia3 = new IAlvl3()
+			ia3.createBoard
+
+			if(gameLoopTest(ia2,ia3,false).equals("1")){
+				testLoop23(nb+1,countWin+1)
+			}else{
+				testLoop23(nb+1,countWin)
+			}
+		}else{
 			countWin.toString
 		}
 	}
