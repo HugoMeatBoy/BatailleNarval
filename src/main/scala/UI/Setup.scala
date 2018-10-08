@@ -17,13 +17,13 @@ object SetupConsole{
 
 		var dir5 = getDirection(5)
 
-        println("\nSelect the first cell of the boat (at right top) :")
+        println("\nSelect the first cell of the boat (at left top) :")
         g.addBoat(insertBoat(dir5, 5, g), 5)
         displayOwn(g)
 
         var dir4 = getDirection(4)
 
-        println("\nSelect the first cell of the boat (at right top) :")
+        println("\nSelect the first cell of the boat (at left top) :")
         g.addBoat(insertBoat(dir4, 4, g), 4)
         displayOwn(g)
 

@@ -56,4 +56,9 @@ object Console{
 		println("\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n")
 		readLine("\n*** Next player press enter !")
 	}
+
+    def pressEnterToContinueIA(){
+		readLine("\n*** Press enter to continue to play !")
+		println("\n\n*\n\n*\n\n")
+	}
 }
