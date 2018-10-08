@@ -216,7 +216,7 @@ object BattleShip extends App{
 	def selectMode():Int={
 		var mode = readLine("Select game mode :\n\n 1 -> 1P vs CPU \n 2 -> 2P VS \n (1/2) : ")
 
-		if(!(mode.equals("1") || mode.equals("2") || mode.equals("99"))) {
+		if(!(mode.equals("1") || mode.equals("2") || mode.equals("0"))) {
 			println("[ERR] * Wrong input \n")
 			selectMode
 		}else mode.toInt

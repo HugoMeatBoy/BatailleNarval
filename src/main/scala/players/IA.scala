@@ -165,6 +165,7 @@ class IAlvl2 extends Player{
 class IAlvl3 extends Player {
     var grid = new Grid()
     var firstCellTouched:Tuple2[Int,Int]=null
+    var lastCellTouched:Tuple2[Int,Int]=null
 
     var searchNewBoat:Boolean=true                          //false at the first touch, to search around this point
 
@@ -184,18 +185,45 @@ class IAlvl3 extends Player {
 
 
     def shootLastBoat(g: Grid, index: Int = 1): Tuple2[Int,Int]={
-        var x = firstCellTouched._1
-        var y = firstCellTouched._2
+        var xF = firstCellTouched._1
+        var yF = firstCellTouched._2
+        var xL = lastCellTouched._1
+        var yL = lastCellTouched._2
 
+        if(!(xL == xF && yL == xL)){
+            if(xF == xL){
 
-        if(checkNextCell(x+index,y,g)){
-            (x+index,y)
-        }else if(checkNextCell(x,y+index,g)){
-            (x, y+index)
-        }else if(checkNextCell(x-index,y,g)){
-            (x-index,y)
-        }else if(checkNextCell(x, y-index,g)){
-            (x, y-index)
+                if(checkNextCell(xL,yL+index,g)){
+                    (xL,yL+index)
+                }else if(checkNextCell(xL,yL-index,g)){
+                    (xL,yL-index)
+                }else if(checkNextCell(xF,yF+index,g)){
+                    (xF,yF-index)
+                }else if(checkNextCell(xF,yF-index,g)){
+                    (xF,yF-index)
+                }
+            }else if (yF == yL){
+        
+                if(checkNextCell(xL+index,yL,g)){
+                    (xL+index,yL)
+                }else if(checkNextCell(xL-index,yL,g)){
+                    (xL-index,yL)
+                }else if(checkNextCell(xF+index,yF,g)){
+                    (xF+index,yF)
+                }else if(checkNextCell(xF-index,yF,g)){
+                    (xF-index,yF)
+                }
+            }
+        }
+
+        if(checkNextCell(xF+index,yF,g)){
+            (xF+index,yF)
+        }else if(checkNextCell(xF,yF+index,g)){
+            (xF, yF+index)
+        }else if(checkNextCell(xF-index,yF,g)){
+            (xF-index,yF)
+        }else if(checkNextCell(xF, yF-index,g)){
+            (xF, yF-index)
         }else{
             if(index == 5){
                 pickRandomCell
@@ -242,6 +270,7 @@ class IAlvl3 extends Player {
                         searchNewBoat = false
                         firstCellTouched = (cellShot._1,cellShot._2)
                     }
+                    lastCellTouched = (cellShot._1,cellShot._2)
 
                     g.setCell(cellShot._1,cellShot._2,"Touched")
                     ("\n\n ** x : IA touched a boat !\n\n ******************")
