@@ -36,8 +36,6 @@ class IAlvl1 extends Player  {
 
             }
             case _ => {
-                println("[ERR] * Target already destroyed, please shoot again\n")
-
                 attackRound(g)
             }
         }
@@ -121,10 +119,6 @@ class IAlvl2 extends Player{
 
     def attackRound(g : Grid): String={
         var cellShot = shoot(g)
-
-
-
-
         g.checkCell(cellShot._1,cellShot._2) match {
             case "Empty" => {
                 g.setCell(cellShot._1,cellShot._2,"Missed")
@@ -145,7 +139,6 @@ class IAlvl2 extends Player{
                     if(searchNewBoat){
                         searchNewBoat = false
                         firstCellTouched = (cellShot._1,cellShot._2)
-                        println(firstCellTouched)
                     }
 
                     g.setCell(cellShot._1,cellShot._2,"Touched")
@@ -154,8 +147,6 @@ class IAlvl2 extends Player{
 
             }
             case _ => {
-                println("[ERR] * Target already destroyed, please shoot again\n")
-
                 attackRound(g)
             }
         }
@@ -166,13 +157,6 @@ class IAlvl2 extends Player{
     }
 
 }
-
-
-
-
-
-
-
 
 
 class IAlvl3 extends Player {

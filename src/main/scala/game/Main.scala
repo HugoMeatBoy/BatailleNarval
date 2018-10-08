@@ -6,6 +6,7 @@ import players._
 import UI.Console._
 import UI.Ascii._
 import UI.SetupConsole._
+import Tests._
 
 import scala.util.matching.Regex
 
@@ -44,7 +45,7 @@ object BattleShip extends App{
 			}
 		}
 
-	}else{
+	}else if(menu == 2){
 
 		println("\n********* Boats setup - Player 1 ********* \n")
 		var gridPlayer1 = createBoats()
@@ -66,10 +67,16 @@ object BattleShip extends App{
 
 		runGame = gameLoop(player1,player2,false)
 
+	}else{
+		println("\n\n\n****************  TESTING MODE *******************\n\n\n")
+
+		println("IA2 won " + testLoop() + " on 1000 games")
+
+		runGame = "\n\n *** Tests runned "
 	}
 
-	println(runGame)
 
+	println(runGame)
 
 
 	def gameLoopIA(p1: Player, p2: Player,winner : Boolean):String={
@@ -198,9 +205,9 @@ object BattleShip extends App{
 	}
 
 	def selectMode():Int={
-		var mode = readLine("Select game mode :\n 1 -> 1P vs CPU \n 2 -> 2P VS \n (1/2) : ")
+		var mode = readLine("Select game mode :\n\n 1 -> 1P vs CPU \n 2 -> 2P VS \n (1/2) : ")
 
-		if(!(mode.equals("1") || mode.equals("2"))) {
+		if(!(mode.equals("1") || mode.equals("2") || mode.equals("99"))) {
 			println("[ERR] * Wrong input \n")
 			selectMode
 		}else mode.toInt
@@ -215,6 +222,8 @@ object BattleShip extends App{
 		}
 		else lvl.toInt
 	}
+
+
 
 
 
