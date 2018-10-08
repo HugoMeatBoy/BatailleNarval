@@ -31,4 +31,4 @@ sbt
 sbt:BattleShip> run
 ```
 
-You can know play by following the instructions
+You can now play by following the instructions

@@ -17,8 +17,7 @@ object BattleShip extends App{
 	var runGame = ""
 
 	if(menu == 1){
-		//var levelIA = selectIA()
-		var levelIA = 1
+		var levelIA = selectIA()
 
 		var gridPlayer = createBoats()
 		var player = new Human(gridPlayer)
@@ -75,7 +74,7 @@ object BattleShip extends App{
 
 	def gameLoopIA(p1: Player, p2: Player,winner : Boolean):String={
 		if(!winner){
-			println("\n********* Next turn ********* \n")
+			println("\n****************************************\n********* Next turn - Player 1 ********* \n")
 
 			/*
 				Player One
@@ -98,13 +97,11 @@ object BattleShip extends App{
 				/*
 					Player Two
 				*/
-				println("\n********* Next turn - IA ********* \n")
+				println("\n********* IA's turn... ********* \n")
 
 				//Attack
 				println(p2.attackRound(p1.grid))
-
-				//Result
-				displayVS(p1.grid)
+				pressEnterToContinueIA
 
 				if(!p1.grid.isEmpty()){
 					gameLoopIA(p1, p2, false)
@@ -210,10 +207,10 @@ object BattleShip extends App{
 	}
 
 	def selectIA():Int={
-		var lvl = readLine("Select the IA level [1-2-3] : ")
+		var lvl = readLine("\n\n*** Select the IA level [1-2-3] : ")
 
 		if(!(lvl.equals("1") || lvl.equals("2") ||lvl.equals("3"))) {
-			println("Wrong input")
+			println("[ERR] * Wrong input\n")
 			selectIA
 		}
 		else lvl.toInt

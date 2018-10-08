@@ -9,7 +9,7 @@ class Grid(){
 
 
 	def createBoard(x:Int, y:Int){
-		this.board(x)(y) = new Cell("Empty")
+		board(x)(y) = new Cell("Empty")
 
 		if(x == 9){
 			if(y != 9){
@@ -43,14 +43,14 @@ class Grid(){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x
 					var yb = b.y + (b.size - length)
-					if(this.checkCell(xb,yb) == "Empty"){
-						this.setCell(xb,yb,"Ship")
+					if(checkCell(xb,yb) == "Empty"){
+						setCell(xb,yb,"Ship")
 					}
 			}else{
 				var xb = b.x + (b.size - length)
 				var yb = b.y
-				if(this.checkCell(xb,yb) == "Empty"){
-					this.setCell(xb,yb,"Ship")
+				if(checkCell(xb,yb) == "Empty"){
+					setCell(xb,yb,"Ship")
 				}
 			}
 			adddBoatOnGrid(b,length - 1)
@@ -75,14 +75,14 @@ class Grid(){
 			if(b.direction.equals("v") || b.direction.equals("V")){
 					var xb = b.x
 					var yb = b.y + acc
-					if(this.checkCell(xb,yb) == "Ship" || this.checkCell(xb,yb) == "Touched"){
-						this.setCell(xb,yb,"Sunk")
+					if(checkCell(xb,yb) == "Ship" || checkCell(xb,yb) == "Touched"){
+						setCell(xb,yb,"Sunk")
 					}
 			}else{
 				var xb = b.x + acc
 				var yb = b.y
-				if(this.checkCell(xb,yb) == "Ship" || this.checkCell(xb,yb) == "Touched"){
-					this.setCell(xb,yb,"Sunk")
+				if(checkCell(xb,yb) == "Ship" || checkCell(xb,yb) == "Touched"){
+					setCell(xb,yb,"Sunk")
 				}
 			}
 			boatSunk(b, acc+1)
