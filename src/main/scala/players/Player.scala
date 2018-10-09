@@ -2,50 +2,27 @@ package players
 
 import board._
 import UI.SetupConsole._
+import UI.Console._
 
+//Abstract class for human player and IA
 abstract class Player {
     var grid: Grid
     def attackRound(g: Grid):String
 }
 
 
-
 class Human(g: Grid) extends Player{
     var grid: Grid = g
 
-
-
+    //Function called by the main game loop to fire a cell
 	def attackRound(g : Grid): String={
-		var target = takeinput()
+        //User input : Cell to target
+		var target = takeCellInput
+
+        //Get the result of the shot
 		attack(g, target._1,target._2)
 	}
 
-
-	def takeinput():Tuple2[Char,Int] = {
-		var target =  readLine("Select a cell to fire : ")
-		val regex = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1,2,3,4,5,6,7,8,9]".r
-		val regexTen = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1][0]".r
-
-
-		target match {
-		  case regex() | regexTen() => {
-			var xTarget = target.charAt(0)
-
-	  		var yTarget = 0
-
-	  		if(target.length == 3){
-	  			yTarget = 10
-	  		}else{
-	  			yTarget = target.charAt(1).asDigit
-	  		}
-			(xTarget,yTarget)
-		  }
-		  case _ => {
-			  println("[ERR] * Input error, please enter a cell inside the grid \n")
-			  takeinput
-		  }
-	  	}
-	}
 
 	def attack(g:Grid, xT:Char, yT:Int): String = {
 		var x = {
@@ -64,10 +41,11 @@ class Human(g: Grid) extends Player{
 		}
 		var y = yT - 1
 
+        //Check state of targeted cell
 		g.checkCell(x,y) match {
             case "Empty" => {
                 g.setCell(x,y,"Missed")
-                "\n\n ** o : Target missed "
+                "\n\n ** • : Target missed "
             }
             case "Ship" => {
                 var boat = g.getHitBoat(x,y)
@@ -89,8 +67,5 @@ class Human(g: Grid) extends Player{
     			attackRound(g)
             }
         }
-
-
-
 	}
 }

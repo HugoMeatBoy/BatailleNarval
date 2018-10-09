@@ -1,7 +1,6 @@
 package game
 
-
-
+//Tools for random picks, used by AI to shoot and place ships
 object Random{
     def pickRandomCell():Tuple2[Int,Int]={
         var rc = scala.util.Random

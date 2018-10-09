@@ -5,32 +5,42 @@ import game.Random._
 import UI.Console._
 import UI.Ascii._
 import UI.SetupIA._
+/*
+    The AI can be implemented on 3 different levels of difficulty
 
+    * Same createBoats function, done randomly
+    * Evolutive shooting method attackRound
+*/
+
+//LEVEL 1
 class IAlvl1 extends Player  {
 
     var grid = new Grid()
+
+    //Lowest chance method of shoot : constant random
     def shoot:Tuple2[Int,Int]={
         pickRandomCell
     }
 
+    //Override method from Player : Select a cell and check the result
     def attackRound(g : Grid): String={
         var cellShot = shoot
 
         g.checkCell(cellShot._1,cellShot._2) match {
             case "Empty" => {
-                g.setCell(cellShot._1,cellShot._2,"Missed")
-                ("\n\n ** o : IA target missed \n\n ******************")
+                g.setCell(cellShot._1,cellShot._2,"Missed")                      //State of the cell targeted : Missed
+                ("\n\n ** • : IA target missed \n\n ******************")
             }
-            case "Ship" => {
-                var boat = g.getHitBoat(cellShot._1,cellShot._2)
-                boat.hit
+            case "Ship" => {                                                    //SHIP HIT
+                var boat = g.getHitBoat(cellShot._1,cellShot._2)                //Get the ship touched
+                boat.hit                                                        //Reduce the number of cells alive in this boat
 
-                if(boat.aliveCells==0){
+                if(boat.aliveCells==0){                                         //If it was the last cell not touched of this boat, it's declared sunk and remove from the grid
                     boat.sunk = true
                     g.boatSunk(boat)
                     ("\n\n ** X : IA sank a boat !!!\n\n ******************")
                 }else{
-                    g.setCell(cellShot._1,cellShot._2,"Touched")
+                    g.setCell(cellShot._1,cellShot._2,"Touched")                //Else the cell is only update in the grid
                     ("\n\n ** x : IA touched a boat !\n\n ******************")
                 }
 
@@ -41,6 +51,7 @@ class IAlvl1 extends Player  {
         }
     }
 
+    //SetupIA.createBoats to instantiate the 5 AI's ships
     def createBoard(){
         createBoats(grid)
     }
@@ -55,12 +66,18 @@ class IAlvl1 extends Player  {
 
 
 
+/*
+    LEVEL 2
 
+    * firstCellTouched : keeps in memory the first cell of the last touched boat.
+    * searchNewBoat : indicates if the next shot needs to
+*/
 class IAlvl2 extends Player{
     var grid = new Grid()
     var firstCellTouched:Tuple2[Int,Int]=null
 
-    var searchNewBoat:Boolean=true                          //false at the first touch, to search around this point
+
+    var searchNewBoat:Boolean=true
 
 
     def shoot(g: Grid):Tuple2[Int,Int]={
@@ -127,7 +144,7 @@ class IAlvl2 extends Player{
         g.checkCell(cellShot._1,cellShot._2) match {
             case "Empty" => {
                 g.setCell(cellShot._1,cellShot._2,"Missed")
-                ("\n\n ** o : IA target missed \n\n ******************")
+                ("\n\n ** • : IA target missed \n\n ******************")
             }
             case "Ship" => {
                 var boat = g.getHitBoat(cellShot._1,cellShot._2)
@@ -135,7 +152,7 @@ class IAlvl2 extends Player{
 
                 if(boat.aliveCells==0){
 
-                    searchNewBoat = true                                //last targeted boat destroyed, back to search
+                    searchNewBoat = true
 
                     boat.sunk = true
                     g.boatSunk(boat)
@@ -175,7 +192,7 @@ class IAlvl3 extends Player {
     var firstCellTouched:Tuple2[Int,Int]=null
     var lastCellTouched:Tuple2[Int,Int]=null
 
-    var searchNewBoat:Boolean=true                          //false at the first touch, to search around this point
+    var searchNewBoat:Boolean=true
 
 
     def shoot(g: Grid):Tuple2[Int,Int]={
@@ -269,7 +286,7 @@ class IAlvl3 extends Player {
         g.checkCell(cellShot._1,cellShot._2) match {
             case "Empty" => {
                 g.setCell(cellShot._1,cellShot._2,"Missed")
-                ("\n\n ** o : IA target missed \n\n ******************")
+                ("\n\n ** • : IA target missed \n\n ******************")
             }
             case "Ship" => {
                 var boat = g.getHitBoat(cellShot._1,cellShot._2)

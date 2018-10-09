@@ -3,59 +3,57 @@ package game
 import board._
 import players._
 
+/*
+    Tools for testing AI's levels :
+    Each test will create the wanted AI instances and launch a game loop 100 times, while collecting the results : adding 1 if the favourite AI wins, 0 else
+
+*/
 object Tests{
-    def testLoop12(nb: Int = 0, countWin: Int = 0): String={
+    def testLoop12(nb: Int = 0, countWin: Int = 0): Int={
 		if(nb < 100){
 			var ia1 = new IAlvl1()
 			ia1.createBoard
 			var ia2 = new IAlvl2()
 			ia2.createBoard
 
-			if(gameLoopTest(ia1,ia2,false).equals("1")){
-				testLoop12(nb+1,countWin+1)
-			}else{
-				testLoop12(nb+1,countWin)
-			}
+
+            testLoop13(nb+1,countWin+gameLoopTest(ia1,ia2,false))
 		}else{
-			countWin.toString
+			countWin
 		}
 	}
 
-    def testLoop23(nb: Int = 0, countWin: Int = 0): String={
+    def testLoop23(nb: Int = 0, countWin: Int = 0): Int={
 		if(nb < 100){
 			var ia2 = new IAlvl2()
 			ia2.createBoard
 			var ia3 = new IAlvl3()
 			ia3.createBoard
 
-			if(gameLoopTest(ia2,ia3,false).equals("1")){
-				testLoop23(nb+1,countWin+1)
-			}else{
-				testLoop23(nb+1,countWin)
-			}
+            testLoop13(nb+1,countWin+gameLoopTest(ia2,ia3,false))
 		}else{
-			countWin.toString
+			countWin
 		}
 	}
 
-    def testLoop13(nb: Int = 0, countWin: Int = 0): String={
+    def testLoop13(nb: Int = 0, countWin: Int = 0): Int={
         if(nb < 100){
             var ia1 = new IAlvl1()
             ia1.createBoard
             var ia3 = new IAlvl3()
             ia3.createBoard
 
-            if(gameLoopTest(ia1,ia3,false).equals("1")){
-                testLoop13(nb+1,countWin+1)
-            }else{
-                testLoop13(nb+1,countWin)
-            }
+
+
+            testLoop13(nb+1,countWin+gameLoopTest(ia1,ia3,false))
+
         }else{
-            countWin.toString
+            countWin
         }
     }
 
-	def gameLoopTest(p1: Player, p2: Player,winner : Boolean):String={
+    //Game loop between AIs, without logs
+	def gameLoopTest(p1: Player, p2: Player,winner : Boolean): Int={
 		if(!winner){
 			p1.attackRound(p2.grid)
 
@@ -71,8 +69,8 @@ object Tests{
 				gameLoopTest(p1, p2, true)
 			}
 		}else{
-			if(p2.grid.isEmpty()) "0"
-            else "1"
+			if(p2.grid.isEmpty()) 0
+            else 1
 		}
 	}
 }

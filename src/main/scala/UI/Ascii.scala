@@ -2,6 +2,8 @@ package UI
 
 import board.Grid
 
+
+//Presets for graphic console display
 object Ascii{
 
     def logo(){
@@ -17,10 +19,10 @@ object Ascii{
             println("\n----------------------- Welcome for a new game ! ------------------------------\n")
         }
 
-
+    //Calls the Cell.render function to visualize all the infos
     def displayOwn(g:Grid){
         println("\n\n ************** Your grid\n")
-        println("s = Ship, Ø = Ship touched, X = Ship sunk \n")
+        println("s = Ship, Ø = Ship touched, X = Ship sunk, • = Shot missed \n")
 
         println("        | A | B | C | D | E | F | G | H | I | J  ")
         println("     ---|---|---|---|---|---|---|---|---|---|---")
@@ -46,10 +48,10 @@ object Ascii{
     }
 
 
-
+    //Calls the Cell.renderHidden to hide the cell of ships still alive in the opponent grid
     def displayVS(g:Grid){
         println("\n\n ************** Opponent grid\n")
-        println("Ø = Ship touched, X = Ship sunk, o = Shot missed \n")
+        println("Ø = Ship touched, X = Ship sunk, • = Shot missed \n")
 
         println("        | A | B | C | D | E | F | G | H | I | J  ")
         println("     ---|---|---|---|---|---|---|---|---|---|---")

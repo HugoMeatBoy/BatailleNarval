@@ -3,11 +3,14 @@ package UI
 import board._
 import Ascii._
 
+/*
+    Tools to interact quickly with the human player : Separator clicks panels, input cell & formating,   
+*/
 object Console{
 
 
     def takeCellInput():Tuple2[Char,Int] = {
-            var target =  readLine("Input cell : ")
+            var target =  readLine("Select a cell : ")
             val regex = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1,2,3,4,5,6,7,8,9]".r
             val regexTen = "[A,B,C,D,E,F,G,H,I,J,a,b,c,d,e,f,g,h,i,j][1][0]".r
 
@@ -32,6 +35,7 @@ object Console{
             }
     }
 
+    //Changing user input (A1 to tuple (0,0))
     def checkValidCell(coord : Tuple2[Char,Int]): Tuple2[Int,Int] = {
         var x = {
 			coord._1 match {
@@ -51,12 +55,15 @@ object Console{
         (x,y)
     }
 
+
+    //Separator panels between players
     def pressEnterToContinue(){
 		readLine("\n*** Press enter to continue to next player !")
 		println("\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n")
 		readLine("\n*** Next player press enter !")
 	}
 
+    //Separator with IA turn
     def pressEnterToContinueIA(){
 		readLine("\n*** Press enter to continue to play !")
 		println("\n\n*\n\n*\n\n")

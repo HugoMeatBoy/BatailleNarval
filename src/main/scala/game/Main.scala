@@ -1,31 +1,46 @@
 package game
 
+//Classes
 import board._
 import players._
 
+//UI and Tests objects
 import UI.Console._
 import UI.Ascii._
 import UI.SetupConsole._
 import Tests._
 
-
+//Java csv export
 import export._
 
 import scala.util.matching.Regex
 
+/*
+	Main class of the application
+
+	The processing management of a battleship game
+
+*/
+
+
 object BattleShip extends App{
+	//Display logo
 	logo()
 
 
+	//User input : Select game mode
 	var menu = selectMode()
 	var runGame = ""
 
+	//One player vs IA
 	if(menu == 1){
+		//User input : Select AI level
 		var levelIA = selectIA()
 
 		var gridPlayer = createBoats()
 		var player = new Human(gridPlayer)
 
+		//Create AI grid and lauch game
 		levelIA match {
 			case 1 => {
 				var ia = new IAlvl1()
@@ -48,13 +63,14 @@ object BattleShip extends App{
 			}
 		}
 
+	//Two players
 	}else if(menu == 2){
 
+		//Setup boats
 		println("\n********* Boats setup - Player 1 ********* \n")
 		var gridPlayer1 = createBoats()
 		displayOwn(gridPlayer1)
 		var player1 = new Human(gridPlayer1)
-
 
 		pressEnterToContinue
 
@@ -63,29 +79,30 @@ object BattleShip extends App{
 		displayOwn(gridPlayer2)
 		var player2 = new Human(gridPlayer2)
 		println("\n *** Boats placed \n\n")
-		pressEnterToContinue()
 
+		pressEnterToContinue
 
+		//Start game
 		println("Good luck, have fun ! o/\n\n\n")
-
 		runGame = gameLoop(player1,player2,false)
 
+	//Test mode : AI vs AI
 	}else{
 		println("\n\n\n****************  TESTING MODE *******************\n\n\n")
 
+		//Running testes
 		var test1 = testLoop12()
 		var test2 = testLoop13()
 		var test3 = testLoop23()
 
 
 		println("IA2 won " + test1 + " times on 100 games vs IA1")
-
 		println("IA3 won " + test2 + " times on 100 games vs IA1")
-
 		println("IA3 won " + test3 + " times on 100 games vs IA2")
-		var csv = new CsvExport()
 
-		csv.export(test1.toInt,test2.toInt,test3.toInt)
+		//Exporting results in .csv via Java.export.CsvExport
+		var csv = new CsvExport()
+		csv.export(test1,test2,test3)
 
 		runGame = "\n\n *** Tests runned  \n\n    Those results are exported in ProofOfConceptIAs.csv at the root of the project"
 	}
@@ -94,11 +111,8 @@ object BattleShip extends App{
 	println(runGame)
 
 
-
-
-
 	/*
-		Mode 1P vs IA
+		Mode 1P vs AI
 	*/
 	def gameLoopIA(p1: Player, p2: Player,winner : Boolean):String={
 		if(!winner){
@@ -119,6 +133,7 @@ object BattleShip extends App{
 			displayVS(p2.grid)
 
 			if(!p2.grid.isEmpty()){
+
 				//Next
 				pressEnterToContinue
 
@@ -141,25 +156,19 @@ object BattleShip extends App{
 			}
 		}else{
 			if(p2.grid.isEmpty()){
-				if(!(p2.getClass.toString.equals("IAlvl3"))){
-						"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n *************** Try out a harder mode (COMING SOON) !\n"
+				if(!p2.getClass.toString.equals("IAlvl3")){
+						"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n *************** Try out a harder mode !\n"
 				}else{
-					"\n***********                ***********\n*                   *\n Well Played  Player One ! o/ \n\n"
-
+					"\n***********                ***********\n*                   *\n GG Well Played  Player One ! o/ \n\n"
 				}
-
 			}else{
 				if(!(p2.getClass.toString.equals("IAlvl1"))){
-					"\n***********    ***********\n*                   *\n You lose, sorry. Maybe try an easier IA mode ! o/ \n\n\n"
+					"\n***********    ***********\n*                   *\n You lose, sorry. Maybe try an easier AI mode ! o/ \n\n\n"
 				}else{
-					"\n***********                ***********\n*                   *\n Well.. that was the easiest IA mode, only random.. \n\n Let's say it was a perfect rng for this time... \n\n"
-
+					"\n***********                ***********\n*                   *\n Well.. that was the easiest AI mode, only random.. \n\n Let's say it was a perfect rng for this time... \n\n"
 				}
-
 			}
 		}
-
-
 	}
 
 
@@ -227,7 +236,7 @@ object BattleShip extends App{
 	}
 
 	def selectMode():Int={
-		var mode = readLine("Select game mode :\n\n 1 -> 1P vs CPU \n 2 -> 2P VS \n (1/2) : ")
+		var mode = readLine("Select game mode :\n\n (0 -> AI test mode)\n 1 -> 1P vs CPU \n 2 -> 2P \n (1/2) : ")
 
 		if(!(mode.equals("1") || mode.equals("2") || mode.equals("0"))) {
 			println("[ERR] * Wrong input \n")
@@ -236,7 +245,7 @@ object BattleShip extends App{
 	}
 
 	def selectIA():Int={
-		var lvl = readLine("\n\n*** Select the IA level [1-2-3] : ")
+		var lvl = readLine("\n\n*** Select the IA level (1/2/3) : ")
 
 		if(!(lvl.equals("1") || lvl.equals("2") ||lvl.equals("3"))) {
 			println("[ERR] * Wrong input\n")
@@ -244,9 +253,4 @@ object BattleShip extends App{
 		}
 		else lvl.toInt
 	}
-
-
-
-
-
 }

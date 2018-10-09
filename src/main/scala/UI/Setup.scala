@@ -9,6 +9,7 @@ import game.Random._
     Boats setup - for human player
 */
 object SetupConsole{
+    //Main process
     def createBoats():Grid={
 		var g = new Grid
 		println("\n*** Now place your boats !\n")
@@ -47,7 +48,7 @@ object SetupConsole{
         g
 	}
 
-
+    //User input : Direction of his next boat (H/V)
     def getDirection(sizeBoat: Int):String={
         var d = readLine("\nSelect a direction for your "+ sizeBoat +"-cell ship (Horizontally:H,Vertically:V) : ")
         d match {
@@ -59,6 +60,7 @@ object SetupConsole{
         }
     }
 
+    //User input : First cell (left top) of his next boat
     def insertBoat(dir: String, size: Int, g : Grid): Boat={
         var cell = checkValidCell(takeCellInput())
 
@@ -70,6 +72,7 @@ object SetupConsole{
         }
     }
 
+    //Check if a cell of a boat can't be placed : Because of another boat or the limits of the grid
     def checkValidBoat(dir: String, size: Int, coord : Tuple2[Int,Int], g : Grid): Boolean= {
         if(dir.equals("h") || dir.equals("H")){
             if(coord._1 + size > 10){
@@ -94,6 +97,7 @@ object SetupConsole{
         }
     }
 
+    //Validator of checkValidBoat() on each cell of the future ship
     def checkAvailabilty(dir: String, size: Int, coord : Tuple2[Int,Int],g: Grid): Boolean={
         if(size > 0){
             if(g.checkCell(coord._1,coord._2) == "Ship"){
@@ -122,12 +126,9 @@ object SetupConsole{
 
 
 /*
-    Boats setup - for IA (no logs)
+    Boats setup - for AI (no logs)
+    The process is similar from the Human interface Setup, except the random picks if cells and directions.
 */
-
-
-
-
 object SetupIA{
     def createBoats(g: Grid):Grid={
         createRandomBoat(5,g)

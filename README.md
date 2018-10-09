@@ -36,7 +36,7 @@ You can now play by following the instructions
 
 ## Proof of Concept : IAs
 
-By selecting the '0' menu at start (hidden), you will access the testing mode of the IA :
-It will only run 1000 games between IA 1 and IA 2, then between IA 2 and IA 3, and display you the results.
+By selecting the 0 menu at start, you will access the testing mode of the IA :
+It will only run 100 games between IA 1 and IA 2, IA 1 and IA 2, IA 1 and IA 2, display the result and export it in csv.
 
-This is only to confirm the right levelling of implemented IAs.
+This is to confirm the right levelling of implemented IAs.
