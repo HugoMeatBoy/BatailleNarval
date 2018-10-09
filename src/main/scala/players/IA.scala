@@ -19,7 +19,7 @@ class IAlvl1 extends Player  {
         g.checkCell(cellShot._1,cellShot._2) match {
             case "Empty" => {
                 g.setCell(cellShot._1,cellShot._2,"Missed")
-                ("\n\n ** o : Target missed ")
+                ("\n\n ** o : IA target missed \n\n ******************")
             }
             case "Ship" => {
                 var boat = g.getHitBoat(cellShot._1,cellShot._2)
@@ -28,10 +28,10 @@ class IAlvl1 extends Player  {
                 if(boat.aliveCells==0){
                     boat.sunk = true
                     g.boatSunk(boat)
-                    ("\n\n ** X : Ship sunk !!!")
+                    ("\n\n ** X : IA sank a boat !!!\n\n ******************")
                 }else{
                     g.setCell(cellShot._1,cellShot._2,"Touched")
-                    ("\n\n ** x : Ship touched !")
+                    ("\n\n ** x : IA touched a boat !\n\n ******************")
                 }
 
             }
@@ -84,12 +84,21 @@ class IAlvl2 extends Player{
 
         if(checkNextCell(x+index,y,g)){
             (x+index,y)
+        }else if(checkNextCell(x+index,y+index,g)){
+            (x+index,y+index)
         }else if(checkNextCell(x,y+index,g)){
             (x, y+index)
-        }else if(checkNextCell(x-index,y,g)){
-            (x-index,y)
+        }else if(checkNextCell(x-index,y+index,g)){
+            (x-index,y+index)
+        }else if(checkNextCell(x-index, y,g)){
+            (x-index, y)
+        }
+        else if(checkNextCell(x-index,y-index,g)){
+            (x-index,y-index)
         }else if(checkNextCell(x, y-index,g)){
             (x, y-index)
+        }else if(checkNextCell(x+index, y-index,g)){
+            (x+index, y-index)
         }else{
             if(index == 5){
                 pickRandomCell
@@ -130,7 +139,7 @@ class IAlvl2 extends Player{
 
                     boat.sunk = true
                     g.boatSunk(boat)
-                    ("\n\n ** X : IA sunk a boat !!!\n\n ******************")
+                    ("\n\n ** X : IA sank a boat !!!\n\n ******************")
                 }else{
                     if(searchNewBoat){
                         searchNewBoat = false
@@ -171,13 +180,7 @@ class IAlvl3 extends Player {
 
     def shoot(g: Grid):Tuple2[Int,Int]={
         if(firstCellTouched != null){
-            if(!searchNewBoat){
-                var cell = shootLastBoat(g)
-                println(cell)
-                cell
-            }else{
-                pickRandomCell
-            }
+            shootLastBoat(g)
         }else{
             pickRandomCell
         }
@@ -191,27 +194,15 @@ class IAlvl3 extends Player {
         var xL = lastCellTouched._1
         var yL = lastCellTouched._2
 
-        println("xF,yF : " + xF + "," + yF)
-        println("xL,yL : " + xL + "," + yL)
-
-
-
-
         if(xF == xL && yL != yF && checkNextCell(xL,yL+index,g)){
-            println("next : " + xL + "," + (yL+index))
             (xL,yL+index)
         }else if(xF == xL && yL != yF && checkNextCell(xL,yL-index,g)){
-            println("next : " + xL + "," +( yL-index))
             (xL,yL-index)
         }else if(xF == xL && yL != yF && checkNextCell(xF,yF+index,g)){
             (xF,yF+index)
         }else if(xF == xL && yL != yF && checkNextCell(xF,yF-index,g)){
             (xF,yF-index)
-        }
-
-
-
-        if(xF != xL && yL == yF && checkNextCell(xL+index,yL,g)){
+        }else if(xF != xL && yL == yF && checkNextCell(xL+index,yL,g)){
             (xL+index,yL)
         }else if(xF != xL && yL == yF && checkNextCell(xL-index,yL,g)){
             (xL-index,yL)
@@ -219,7 +210,7 @@ class IAlvl3 extends Player {
             (xF+index,yF)
         }else if(xF != xL && yL == yF && checkNextCell(xF-index,yF,g)){
             (xF-index,yF)
-    
+
         }else if(xF != xL && yF != yL){
             searchOldHits(g).getOrElse(pickRandomCell)
         }else{
@@ -238,12 +229,8 @@ class IAlvl3 extends Player {
                 }else{
                     shootLastBoat(g, index+1)
                 }
-
             }
         }
-
-
-
     }
 
 
@@ -294,7 +281,7 @@ class IAlvl3 extends Player {
 
                     boat.sunk = true
                     g.boatSunk(boat)
-                    ("\n\n ** X : IA sunk a boat !!!\n\n ******************")
+                    ("\n\n ** X : IA sank a boat !!!\n\n ******************")
                 }else{
                     if(searchNewBoat){
                         searchNewBoat = false
