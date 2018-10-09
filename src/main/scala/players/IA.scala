@@ -50,11 +50,7 @@ class IAlvl1 extends Player  {
 
 
 
-
-
-
-
-
+/*******************************************************************************************************************/
 
 
 
@@ -161,6 +157,9 @@ class IAlvl2 extends Player{
 
 
 
+/*******************************************************************************************************************/
+
+
 
 class IAlvl3 extends Player {
     var grid = new Grid()
@@ -173,7 +172,9 @@ class IAlvl3 extends Player {
     def shoot(g: Grid):Tuple2[Int,Int]={
         if(firstCellTouched != null){
             if(!searchNewBoat){
-                shootLastBoat(g)
+                var cell = shootLastBoat(g)
+                println(cell)
+                cell
             }else{
                 pickRandomCell
             }
@@ -190,52 +191,63 @@ class IAlvl3 extends Player {
         var xL = lastCellTouched._1
         var yL = lastCellTouched._2
 
-        if(!(xL == xF && yL == xL)){
-            if(xF == xL){
+        println("xF,yF : " + xF + "," + yF)
+        println("xL,yL : " + xL + "," + yL)
 
-                if(checkNextCell(xL,yL+index,g)){
-                    (xL,yL+index)
-                }else if(checkNextCell(xL,yL-index,g)){
-                    (xL,yL-index)
-                }else if(checkNextCell(xF,yF+index,g)){
-                    (xF,yF-index)
-                }else if(checkNextCell(xF,yF-index,g)){
-                    (xF,yF-index)
-                }
-            }else if (yF == yL){
-        
-                if(checkNextCell(xL+index,yL,g)){
-                    (xL+index,yL)
-                }else if(checkNextCell(xL-index,yL,g)){
-                    (xL-index,yL)
-                }else if(checkNextCell(xF+index,yF,g)){
-                    (xF+index,yF)
-                }else if(checkNextCell(xF-index,yF,g)){
-                    (xF-index,yF)
-                }
-            }
+
+
+
+        if(xF == xL && yL != yF && checkNextCell(xL,yL+index,g)){
+            println("next : " + xL + "," + (yL+index))
+            (xL,yL+index)
+        }else if(xF == xL && yL != yF && checkNextCell(xL,yL-index,g)){
+            println("next : " + xL + "," +( yL-index))
+            (xL,yL-index)
+        }else if(xF == xL && yL != yF && checkNextCell(xF,yF+index,g)){
+            (xF,yF+index)
+        }else if(xF == xL && yL != yF && checkNextCell(xF,yF-index,g)){
+            (xF,yF-index)
         }
 
-        if(checkNextCell(xF+index,yF,g)){
+
+
+        if(xF != xL && yL == yF && checkNextCell(xL+index,yL,g)){
+            (xL+index,yL)
+        }else if(xF != xL && yL == yF && checkNextCell(xL-index,yL,g)){
+            (xL-index,yL)
+        }else if(xF != xL && yL == yF && checkNextCell(xF+index,yF,g)){
             (xF+index,yF)
-        }else if(checkNextCell(xF,yF+index,g)){
-            (xF, yF+index)
-        }else if(checkNextCell(xF-index,yF,g)){
+        }else if(xF != xL && yL == yF && checkNextCell(xF-index,yF,g)){
             (xF-index,yF)
-        }else if(checkNextCell(xF, yF-index,g)){
-            (xF, yF-index)
+    
+        }else if(xF != xL && yF != yL){
+            searchOldHits(g).getOrElse(pickRandomCell)
         }else{
-            if(index == 5){
-                pickRandomCell
-            }else{
-                shootLastBoat(g, index+1)
-            }
 
+            if(checkNextCell(xF+index,yF,g)){
+                (xF+index,yF)
+            }else if(checkNextCell(xF,yF+index,g)){
+                (xF, yF+index)
+            }else if(checkNextCell(xF-index,yF,g)){
+                (xF-index,yF)
+            }else if(checkNextCell(xF, yF-index,g)){
+                (xF, yF-index)
+            }else{
+                if(index == 5){
+                    pickRandomCell
+                }else{
+                    shootLastBoat(g, index+1)
+                }
+
+            }
         }
+
+
+
     }
 
 
-    def checkNextCell(x: Int, y: Int, g: Grid):Boolean={
+    def checkNextCell(x: Int, y: Int, g: Grid): Boolean={
         if(x < 10 && x >= 0 && y < 10 && y >= 0){
             g.checkCell(x,y) match {
                 case "Missed" | "Touched" | "Sunk" => false
@@ -243,6 +255,24 @@ class IAlvl3 extends Player {
             }
         }else{
             false
+        }
+    }
+
+
+    def searchOldHits( g: Grid, x: Int = 0, y: Int = 0): Option[Tuple2[Int,Int]]={
+        g.checkCell(x,y) match {
+            case "Touched" => Some((x,y))
+            case _ => {
+                if(x == 9){
+                    if(y == 9){
+                        None
+                    }else{
+                        searchOldHits(g,x,y+1)
+                    }
+                }else{
+                    searchOldHits(g,x+1,y)
+                }
+            }
         }
     }
 

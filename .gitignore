@@ -270,3 +270,5 @@ project/target/streams/runtime/unmanagedJars/\$global/streams/export
 *.class
 
 target/streams/test/\$global/\$global/definedTestNames/data
+
+project/target/active\.json
