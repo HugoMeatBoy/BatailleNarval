@@ -5,7 +5,7 @@ import players._
 
 object Tests{
     def testLoop12(nb: Int = 0, countWin: Int = 0): String={
-		if(nb <= 1000){
+		if(nb < 100){
 			var ia1 = new IAlvl1()
 			ia1.createBoard
 			var ia2 = new IAlvl2()
@@ -22,7 +22,7 @@ object Tests{
 	}
 
     def testLoop23(nb: Int = 0, countWin: Int = 0): String={
-		if(nb <= 1000){
+		if(nb < 100){
 			var ia2 = new IAlvl2()
 			ia2.createBoard
 			var ia3 = new IAlvl3()
@@ -37,6 +37,23 @@ object Tests{
 			countWin.toString
 		}
 	}
+
+    def testLoop13(nb: Int = 0, countWin: Int = 0): String={
+        if(nb < 100){
+            var ia1 = new IAlvl1()
+            ia1.createBoard
+            var ia3 = new IAlvl3()
+            ia3.createBoard
+
+            if(gameLoopTest(ia1,ia3,false).equals("1")){
+                testLoop13(nb+1,countWin+1)
+            }else{
+                testLoop13(nb+1,countWin)
+            }
+        }else{
+            countWin.toString
+        }
+    }
 
 	def gameLoopTest(p1: Player, p2: Player,winner : Boolean):String={
 		if(!winner){

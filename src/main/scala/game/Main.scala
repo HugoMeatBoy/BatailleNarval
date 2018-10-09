@@ -8,6 +8,9 @@ import UI.Ascii._
 import UI.SetupConsole._
 import Tests._
 
+
+import export._
+
 import scala.util.matching.Regex
 
 object BattleShip extends App{
@@ -70,11 +73,21 @@ object BattleShip extends App{
 	}else{
 		println("\n\n\n****************  TESTING MODE *******************\n\n\n")
 
-		println("IA2 won " + testLoop12() + " times on 1000 games vs IA1")
+		var test1 = testLoop12()
+		var test2 = testLoop13()
+		var test3 = testLoop23()
 
-		println("IA3 won " + testLoop23() + " times on 1000 games vs IA2")
 
-		runGame = "\n\n *** Tests runned "
+		println("IA2 won " + test1 + " times on 100 games vs IA1")
+
+		println("IA3 won " + test2 + " times on 100 games vs IA1")
+
+		println("IA3 won " + test3 + " times on 100 games vs IA2")
+		var csv = new CsvExport()
+
+		csv.export(test1.toInt,test2.toInt,test3.toInt)
+
+		runGame = "\n\n *** Tests runned  \n\n    Those results are exported in ProofOfConceptIAs.csv at the root of the project"
 	}
 
 
